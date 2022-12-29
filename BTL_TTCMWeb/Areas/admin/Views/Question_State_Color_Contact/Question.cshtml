@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewBag.Title = "Question";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetAll();
+        });
+        function LaytheomaTB(question_id) {
+            $.ajax({
+                url: ' https://localhost:44386/getquestion/' + question_id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (res) {
+                    alert("Lỗi mã");
+                },
+                success: function (res) {
+                    $("#txtThietBi").val(res.question_id),
+                        $("#txtTen").val(res.question)
+                },
+                fail: function (response) { }
+            })
+        }
+        function checkQuestion() {
+            if ($("input[name='MaThietBi1']").val() == '') {
+                alert("Vui lòng nhập mã câu hỏi");
+            } else if ($("input[name='Ten1']").val() == '') {
+                alert("vui lòng nhập nội dung câu hỏi");
+            } else {
+                AddQuestion();
+            }
+        }
+        function GetAll() {
+            $.ajax({
+                url: ' https://localhost:44386/LayCauHoi/',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        let STT = i + 1;
+                        table = table + '<tr>'
+                        table = table + '<td>' + STT + '</td>';
+                        table = table + '<td>' + reponse[i].question_id + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].question + '</td>';
+                        table = table + '<td style="max-width : 150px" > <button type="button" class="btn btn-danger" onclick="HienThiSua(),LaytheomaTB(\'' + reponse[i].question_id + '\')">Sửa</button></td>';
+                        table = table + '<tr>'
+
+                        document.getElementById('data').innerHTML = table;
+                    }
+                },
+                fail: function (response) { }
+            })
+        }
+        function AddQuestion() {
+            var url = 'https://localhost:44386/api/Default/?question_id=' +
+                $("input[name='MaThietBi1']").val() + '&question=' + $("input[name='Ten1']").val();
+            $.ajax({
+                url: url,
+                method: 'Post',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Thêm mới không thành công");
+                },
+                success: function (reponse) {
+                    alert("Thêm mới thành công  ");
+                    window.location.href = '@Url.Action("Question", "Question_State_Color_Contact")';
+                }
+            });
+        }
+        function SuaQuestion() {
+            var url = 'https://localhost:44386/api/Default/?question_id=' +
+                $("input[name='MaThietBi']").val() + '&question=' + $("input[name='Ten']").val();
+            $.ajax({
+                url: url,
+                method: 'PUT',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Sửa không thành công  ");
+                },
+                success: function (reponse) {
+                    alert("Sửa thành công  ");
+                    window.location.href = '@Url.Action("Question", "Question_State_Color_Contact")';
+                }
+            });
+        }
+        function HienThiSua() {
+            document.getElementById("Edit").style.display = 'inline';
+            document.getElementById("Tim").style.display = 'none';
+            document.getElementById("Add").style.display = 'none';
+        }
+        function HienThiAdd() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'none';
+            document.getElementById("Add").style.display = 'inline';
+        }
+        function HienThi() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'inline';
+            document.getElementById("Add").style.display = 'none';
+        }
+    </script>
+}
+<div id="Tim" class="container">
+    <div class="container" style="width:100%;">
+        <h1 style="text-align:center">Bảng Câu Hỏi</h1>
+        <button class="btn btn-info" style="float: left; margin-bottom: 20px;" onclick="HienThiAdd();">Thêm Câu Hỏi</button></a>
+        <br>
+        <table class="table table-bordered" style="width:100%;">
+
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>ID</th>
+                    <th>Tên Câu Hỏi</th>
+                    <th>Tùy Chọn</th>
+                </tr>
+            </thead>
+            <tbody id="data">
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container" id="Edit" style="display:none">
+    <table style="border:none">
+        <tbody>
+            <tr>
+                <td>ID: </td>
+                <td>
+                    <input id="txtThietBi" type="text" name="MaThietBi" style="margin-bottom: 10px; border-radius: 2px; width: 280px" readonly />
+                </td>
+            </tr>
+            <tr>
+                <td>Tên: </td>
+                <td>
+                    <input id="txtTen" type="text" name="Ten" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td style="display: inline-flex">
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px; margin-right: 10px" onclick="HienThi()">Quay lại</button>
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px;"
+                            onclick="SuaQuestion();">
+                        Cập nhật
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container" id="Add" style="display:none">
+    <table style="border:none">
+        <tbody>
+            <tr>
+                <td>ID: </td>
+                <td>
+                    <input id="txtThietBi" type="text" name="MaThietBi1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Tên: </td>
+                <td>
+                    <input id="txtTen" type="text" name="Ten1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td style="display: inline-flex">
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px; margin-right: 10px" onclick="HienThi()">Quay lại</button>
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px;"
+                            onclick="checkQuestion();">
+                        Thêm mới
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+

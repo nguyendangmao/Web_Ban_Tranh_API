@@ -1,0 +1,56 @@
+﻿@model BTL_TTCMWeb.Models.tbl_user
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container" onsubmit="return vaild()">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h2 style="text-align:center; font-weight:bold; padding-top: 20px">Đăng Nhập</h2>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label class="control-label col-md-2">Tài khoản</label>
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.user_name, new { htmlAttributes = new { @class = "form-control", @id = "Name" } })
+                    @Html.ValidationMessageFor(model => model.user_name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">Mật khẩu</label>
+                <div class="col-md-4">
+                    <input type="password" id="user_password" name="user_password" class="form-control" />
+                    @Html.ValidationMessageFor(model => model.user_password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <a href="@Url.Action("LayMatKhau", "Account")" style="padding-left:460px">Quên mật khẩu</a>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Đăng nhập" class="btn btn-info" />
+                   
+                </div>
+            </div>
+        </div> if (ViewBag.message == null && ViewBag.triedOnce == "yes")
+        {
+            <h4 class="text-danger" style="padding-top:10px; padding-bottom:; text-align:center">Tên đăng nhập hoặc mật khẩu không đúng, vui lòng đăng ký lại tại @Html.ActionLink("đây", "Register", "Home").</h4>}
+    }
+</div>
+
+
+<script>
+    function vaild() {
+            if (document.getElementById("Name").value == "") {
+                alert("Vui lòng nhập tên đăng nhập !");
+                return false;
+            }
+            if (document.getElementById("user_password").value == "") {
+                alert("Vui lòng nhập mật khẩu");
+                return false;
+            }
+            return true;
+    }
+</script>
+

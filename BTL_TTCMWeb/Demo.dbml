@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="HAWContext" Class="DemoDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=LAPTOP-POHVM6IF\MSSQLSERVER1;Initial Catalog=HAWContext;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="HAWContextConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tbl_color" Member="tbl_colors">
+    <Type Name="tbl_color">
+      <Column Name="color_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="color_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="color_img" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_state" Member="tbl_states">
+    <Type Name="tbl_state">
+      <Column Name="state_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="state_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_category" Member="tbl_categories">
+    <Type Name="tbl_category">
+      <Column Name="category_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="category_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="category_parent" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Demo" Member="Demos">
+    <Type Name="Demo">
+      <Column Name="user_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="user_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="user_email" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="user_phone" Type="System.String" DbType="NVarChar(11)" CanBeNull="true" />
+      <Column Name="user_address" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="user_password" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="time" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="question_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="answer" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="remember_me_identify" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="remember_me_token" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="question" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Demo1" Member="Demo1s">
+    <Type Name="Demo1">
+      <Column Name="user_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="user_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="user_email" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="user_phone" Type="System.String" DbType="NVarChar(11)" CanBeNull="true" />
+      <Column Name="user_address" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="user_password" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="time" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="question_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="answer" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="remember_me_identify" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="remember_me_token" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="SoLanMua" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Demo3" Member="Demo3s">
+    <Type Name="Demo3">
+      <Column Name="order_detail_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="productColor_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="oder_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="order_detail_note" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="user_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="product_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_img" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="TongTien" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_producer" Member="tbl_producers">
+    <Type Name="tbl_producer">
+      <Column Name="producer_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="producer_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="producer_address" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="state" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.order1" Member="order1s">
+    <Type Name="order1">
+      <Column Name="order_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="user_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="user_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="order_receiver_note" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="order_total_price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="state_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="state_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.product" Member="products">
+    <Type Name="product">
+      <Column Name="product_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="product_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_alias" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_content" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_img" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_sub_img" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_isHot" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="product_isNew" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="product_isSale" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="product_CreatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="product_UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="product_code" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_package" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_delivery" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_delivery_time" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="product_payment" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_payment_type" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="state" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="state_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="title_seo" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="des_seo" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="friendly_url" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="keyword" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_material" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_shape" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_producer" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="producer_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="category_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="category_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.producer" Member="producers">
+    <Type Name="producer">
+      <Column Name="producer_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="producer_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="producer_address" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="state" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="state_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Demo2" Member="Demo2s">
+    <Type Name="Demo2">
+      <Column Name="order_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="user_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="order_receiver_note" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="order_total_price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="order_state" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="user_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="state_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_question" Member="tbl_questions">
+    <Type Name="tbl_question">
+      <Column Name="question_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="question" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Demo4" Member="Demo4s">
+    <Type Name="Demo4">
+      <Column Name="user_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="user_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TopSPbanchay" Member="TopSPbanchays">
+    <Type Name="TopSPbanchay">
+      <Column Name="Nam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Thang" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoSP" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongTien" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="product_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="size" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="color_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_img" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BanTheoNam" Member="BanTheoNams">
+    <Type Name="BanTheoNam">
+      <Column Name="Nam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Thang" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongHD" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoSP" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongTien" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.chitietOrder" Member="chitietOrders">
+    <Type Name="chitietOrder">
+      <Column Name="order_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="user_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="order_receiver_note" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="order_total_price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="order_state" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="color_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="state_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="size" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_img" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.productcolor" Member="productcolors">
+    <Type Name="productcolor">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="color_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="color_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="product_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="product_name" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="size" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="amount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="product_price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="product_sale" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="product_discount" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,181 @@
+﻿@using BTL_TTCMWeb.Helper
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Wedding Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome -->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- start menu -->
+    <script src="~/Scripts/simpleCart.js"></script>
+    <!-- start menu -->
+    <link href="~/Content/memenu.css" rel="stylesheet" />
+    @*<script src="~/Scripts/jquery.min.1.js"></script>*@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/memenu.js"></script>
+    <script src="~/Scripts/responsiveslides.min.js"></script>
+    <script>$(document).ready(function () { $(".memenu").memenu(); });
+        $(function () {
+            //Hàm chạy ảnh qua lại ở trang chủ
+            $("#slider").responsiveSlides({
+                auto: true,
+                nav: true,
+                speed: 500,
+                namespace: "callbacks",
+                pager: false,
+            });
+        });</script>
+</head>
+<body>
+    <div class="header-top">
+        <div class="header-bottom">
+            <div class="logo">
+                <a href="@Url.Action("Index","User")">
+                    <img src="~/images/LogoHAW.png" width="90" height="100" />
+                </a>
+            </div>
+            <!---->
+            <div class="top-nav">
+                <ul class="memenu skyblue">
+                    <li class="grid @Html.IsSelected(actions: "Index", controllers: "User")"><a href="@Url.Action("Index","User")">Trang chủ</a></li>
+                    <li class="grid @Html.IsSelected(actions: "Contact", controllers: "User")"><a href="@Url.Action("Contact","User")">Liên hệ</a></li>
+                    @if (Session["username"] == null)
+                    {
+        <li class="grid @Html.IsSelected(actions: "Register", controllers: "User")"><a href="@Url.Action("Register","User")">Đăng Ký</a></li>
+                        <li class="grid @Html.IsSelected(actions: "Login", controllers: "Account")"><a href="@Url.Action("Login","Account")">Đăng Nhập</a></li>}
+                </ul>
+            </div>
+            <!---->
+            @*Giỏ hàng*@
+            <div class="cart box_1">
+                <div style="float: left;">
+                    <a href="@Url.Action("checkout", "User")">
+                        <div class="total">
+                            <span class="simpleCart_total"></span>
+                        </div>
+                        <span class="glyphicon glyphicon-shopping-cart" style="color:red" aria-hidden="true"></span>(<span id="simpleCart_quantity" class="simpleCart_quantity" style="color:red"></span>)
+                    </a>
+                    <p><a href="javascript:;" class="simpleCart_empty">Xóa giỏ hàng</a></p>
+                    @*<div class="clearfix"> </div>*@
+                </div>
+                <div style="float:right; padding-right:10px; padding-left:10px;">
+                    @if (Session["username"] != null)
+                    {
+        <div>Xin chào @Session["username"].ToString()</div>
+                        <div><a style="color:red" href="@Url.Action("Logout","Account")" onclick="logout()">Đăng xuất</a></div>}
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+            <!---->
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    @RenderBody()
+
+
+    <div class="footer">
+        <div class="container">
+            <div class="footer-grids">
+                <div class="col-md-5 about-us">
+                    <h3>Về Chúng Tôi</h3>
+                    <p>
+                        AMAZING ART là xưởng tranh uy tín ở Việt Nam cung cấp dịch vụ in tranh,<br> trang trí căn hộ với chất lượng hàng đầu và hỗ trợ dịch vụ trọn gói:
+                        <br>
+                        Tư vấn trang trí nhà miễn phí
+                        <br>Thiết kế theo yêu cầu
+                        <br>In tranh trong vòng 24h
+                        <br>Ship và treo tranh tận nhà miễn phí
+                    </p>
+                </div>
+                <div class="col-md-4 ftr-grid">
+                    <h3>Thêm Thông Tin</h3>
+                    <ul class="nav-bottom">
+                        <li><a href="@Url.Action("Login", "Account")">Đăng nhập</a></li>
+                        <li><a href="@Url.Action("Register", "User")">Đăng ký</a></li>
+                        <li><a href="@Url.Action("Contact", "User")">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 ftr-grid">
+                    <h3>Danh Mục</h3>
+                    @{ var listCategory = Session["listCategory"] as IQueryable<BTL_TTCMWeb.Models.tbl_category>; }
+                    <ul class="nav-bottom">
+                        @foreach (var item in listCategory)
+                        {
+            <li>@item.category_name</li>}
+                    </ul>
+
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="copywrite">
+        <div class="container">
+            <div class="copy">
+                <p>© 2022 Amazing Art | Design by  </p>
+            </div>
+            <div class="social">
+                <a href="#"><i class="facebook"></i></a>
+                <a href="#"><i class="twitter"></i></a>
+                <a href="#"><i class="dribble"></i></a>
+                <a href="#"><i class="google"></i></a>
+                <a href="#"><i class="youtube"></i></a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>
+<script>
+    function logout() {
+        $(".simpleCart_empty").click();
+    }
+    //Đưa ra tổng tiền 
+    function ConvertCartTotal() {
+        var cartTotal = $(".simpleCart_total").text().substring(1, $(".simpleCart_total").text().length);
+        var cartTotalInt = parseInt(cartTotal);
+        $(".simpleCart_total").text(cartTotalInt+"VNĐ");
+    }
+    //Xóa sản phẩm trong giỏ hàng 
+    function DelteItem(id) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("DeleteToCart", "User")',
+            data: { productColorId: id },
+            success: function (result) {
+                $("#TotalPrice").text(result.price);
+                $("#priceProduct").text(result.priceRemove);
+                $("#quantityCart").val(result.quantityRemove);
+                $(".add-cart").click();
+                $("#" + id).fadeOut('slow', function (c) {
+                    $("#" + id).remove();
+                });
+            }
+        });
+    }
+
+    $(".simpleCart_empty").on('click', function () {
+        $("#total").css("color", "black");
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("ClearAfterDelete", "User")',
+        });
+    });
+</script>

@@ -1,0 +1,1107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HAWContextModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="admin_name" Type="nvarchar" MaxLength="200" />
+          <Property Name="admin_password" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="admin_phone" Type="nvarchar" MaxLength="11" />
+          <Property Name="admin_email" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="admin_isEmployee" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_cart">
+          <Key>
+            <PropertyRef Name="cart_id" />
+          </Key>
+          <Property Name="cart_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="account_id" Type="int" />
+          <Property Name="total_price" Type="float" />
+          <Property Name="date_cart" Type="date" />
+          <Property Name="orderState_id" Type="int" />
+          <Property Name="note_buyer" Type="nvarchar" MaxLength="255" />
+          <Property Name="session_id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_cartDetail">
+          <Key>
+            <PropertyRef Name="cart_detail_id" />
+          </Key>
+          <Property Name="cart_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productColor_id" Type="int" />
+          <Property Name="cart_id" Type="int" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="price" Type="float" />
+        </EntityType>
+        <EntityType Name="tbl_category">
+          <Key>
+            <PropertyRef Name="category_id" />
+          </Key>
+          <Property Name="category_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="category_parent" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="tbl_color">
+          <Key>
+            <PropertyRef Name="color_id" />
+          </Key>
+          <Property Name="color_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="color_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="color_img" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="tbl_contact">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" />
+          <Property Name="phone" Type="nvarchar" MaxLength="255" />
+          <Property Name="address" Type="nvarchar" MaxLength="255" />
+          <Property Name="comment" Type="nvarchar" MaxLength="255" />
+          <Property Name="time" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="tbl_Order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="order_receiver_note" Type="nvarchar" MaxLength="255" />
+          <Property Name="order_total_price" Type="float" />
+          <Property Name="order_state" Type="int" />
+          <Property Name="date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_orderDetail">
+          <Key>
+            <PropertyRef Name="order_detail_id" />
+          </Key>
+          <Property Name="order_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productColor_id" Type="int" />
+          <Property Name="oder_id" Type="int" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="price" Type="float" />
+          <Property Name="order_detail_note" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="tbl_producer">
+          <Key>
+            <PropertyRef Name="producer_id" />
+          </Key>
+          <Property Name="producer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="producer_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="producer_address" Type="nvarchar" MaxLength="255" />
+          <Property Name="state" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_product">
+          <Key>
+            <PropertyRef Name="product_id" />
+          </Key>
+          <Property Name="product_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_alias" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_description" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_content" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_img" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_sub_img" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_isHot" Type="bit" />
+          <Property Name="product_isNew" Type="bit" />
+          <Property Name="product_isSale" Type="bit" />
+          <Property Name="product_CreatedAt" Type="datetime" />
+          <Property Name="product_UpdatedAt" Type="datetime" />
+          <Property Name="product_code" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_package" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_delivery" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_delivery_time" Type="datetime" />
+          <Property Name="product_payment" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_payment_type" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_sub_info" Type="nvarchar" MaxLength="255" />
+          <Property Name="state" Type="int" />
+          <Property Name="title_seo" Type="nvarchar" MaxLength="255" />
+          <Property Name="des_seo" Type="nvarchar" MaxLength="255" />
+          <Property Name="friendly_url" Type="nvarchar" MaxLength="255" />
+          <Property Name="keyword" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_material" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_shape" Type="nvarchar" MaxLength="255" />
+          <Property Name="product_producer" Type="int" />
+          <Property Name="category_id" Type="int" />
+          <Property Name="TongSoSao" Type="int" />
+          <Property Name="TongSoDanhGia" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_productColor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="color_id" Type="int" Nullable="false" />
+          <Property Name="product_id" Type="int" Nullable="false" />
+          <Property Name="size" Type="nvarchar" MaxLength="255" />
+          <Property Name="amount" Type="int" Nullable="false" />
+          <Property Name="product_price" Type="float" />
+          <Property Name="product_sale" Type="float" />
+          <Property Name="product_discount" Type="float" />
+        </EntityType>
+        <EntityType Name="tbl_question">
+          <Key>
+            <PropertyRef Name="question_id" />
+          </Key>
+          <Property Name="question_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="question" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="tbl_state">
+          <Key>
+            <PropertyRef Name="state_id" />
+          </Key>
+          <Property Name="state_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="state_name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="tbl_user">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="user_email" Type="nvarchar" MaxLength="255" />
+          <Property Name="user_phone" Type="nvarchar" MaxLength="11" />
+          <Property Name="user_address" Type="nvarchar" MaxLength="500" />
+          <Property Name="user_password" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="time" Type="date" />
+          <Property Name="question_id" Type="int" />
+          <Property Name="answer" Type="nvarchar" MaxLength="500" />
+          <Property Name="remember_me_identify" Type="nvarchar" MaxLength="500" />
+          <Property Name="remember_me_token" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__tbl_cart__accoun__4222D4EF">
+          <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_cart" Type="Self.tbl_cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="tbl_cart">
+              <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_cartD__cart___4316F928">
+          <End Role="tbl_cart" Type="Self.tbl_cart" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_cartDetail" Type="Self.tbl_cartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_cart">
+              <PropertyRef Name="cart_id" />
+            </Principal>
+            <Dependent Role="tbl_cartDetail">
+              <PropertyRef Name="cart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_cartD__produ__440B1D61">
+          <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_cartDetail" Type="Self.tbl_cartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_productColor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_cartDetail">
+              <PropertyRef Name="productColor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_order__oder___46E78A0C">
+          <End Role="tbl_Order" Type="Self.tbl_Order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_orderDetail" Type="Self.tbl_orderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Order">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="tbl_orderDetail">
+              <PropertyRef Name="oder_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Order__order__44FF419A">
+          <End Role="tbl_state" Type="Self.tbl_state" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Order" Type="Self.tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_state">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="tbl_Order">
+              <PropertyRef Name="order_state" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_order__produ__47DBAE45">
+          <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_orderDetail" Type="Self.tbl_orderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_productColor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_orderDetail">
+              <PropertyRef Name="productColor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Order__user___45F365D3">
+          <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="0..1" />
+          <End Role="tbl_Order" Type="Self.tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="tbl_Order">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__categ__49C3F6B7">
+          <End Role="tbl_category" Type="Self.tbl_category" Multiplicity="0..1" />
+          <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_category">
+              <PropertyRef Name="category_id" />
+            </Principal>
+            <Dependent Role="tbl_product">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__color__4CA06362">
+          <End Role="tbl_color" Type="Self.tbl_color" Multiplicity="1" />
+          <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_color">
+              <PropertyRef Name="color_id" />
+            </Principal>
+            <Dependent Role="tbl_productColor">
+              <PropertyRef Name="color_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__produ__4AB81AF0">
+          <End Role="tbl_producer" Type="Self.tbl_producer" Multiplicity="0..1" />
+          <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_producer">
+              <PropertyRef Name="producer_id" />
+            </Principal>
+            <Dependent Role="tbl_product">
+              <PropertyRef Name="product_producer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__produ__4D94879B">
+          <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="1" />
+          <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_product">
+              <PropertyRef Name="product_id" />
+            </Principal>
+            <Dependent Role="tbl_productColor">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__state__48CFD27E">
+          <End Role="tbl_state" Type="Self.tbl_state" Multiplicity="0..1" />
+          <End Role="tbl_producer" Type="Self.tbl_producer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_state">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="tbl_producer">
+              <PropertyRef Name="state" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__state__4BAC3F29">
+          <End Role="tbl_state" Type="Self.tbl_state" Multiplicity="0..1" />
+          <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_state">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="tbl_product">
+              <PropertyRef Name="state" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_user__questi__4E88ABD4">
+          <End Role="tbl_question" Type="Self.tbl_question" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_question">
+              <PropertyRef Name="question_id" />
+            </Principal>
+            <Dependent Role="tbl_user">
+              <PropertyRef Name="question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HAWContextModelStoreContainer">
+          <EntitySet Name="tbl_admin" EntityType="Self.tbl_admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_cart" EntityType="Self.tbl_cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_cartDetail" EntityType="Self.tbl_cartDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_category" EntityType="Self.tbl_category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_color" EntityType="Self.tbl_color" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_contact" EntityType="Self.tbl_contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Order" EntityType="Self.tbl_Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_orderDetail" EntityType="Self.tbl_orderDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_producer" EntityType="Self.tbl_producer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_product" EntityType="Self.tbl_product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_productColor" EntityType="Self.tbl_productColor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_question" EntityType="Self.tbl_question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_state" EntityType="Self.tbl_state" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_user" EntityType="Self.tbl_user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tbl_cart__accoun__4222D4EF" Association="Self.FK__tbl_cart__accoun__4222D4EF">
+            <End Role="tbl_user" EntitySet="tbl_user" />
+            <End Role="tbl_cart" EntitySet="tbl_cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_cartD__cart___4316F928" Association="Self.FK__tbl_cartD__cart___4316F928">
+            <End Role="tbl_cart" EntitySet="tbl_cart" />
+            <End Role="tbl_cartDetail" EntitySet="tbl_cartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_cartD__produ__440B1D61" Association="Self.FK__tbl_cartD__produ__440B1D61">
+            <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+            <End Role="tbl_cartDetail" EntitySet="tbl_cartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_order__oder___46E78A0C" Association="Self.FK__tbl_order__oder___46E78A0C">
+            <End Role="tbl_Order" EntitySet="tbl_Order" />
+            <End Role="tbl_orderDetail" EntitySet="tbl_orderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Order__order__44FF419A" Association="Self.FK__tbl_Order__order__44FF419A">
+            <End Role="tbl_state" EntitySet="tbl_state" />
+            <End Role="tbl_Order" EntitySet="tbl_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_order__produ__47DBAE45" Association="Self.FK__tbl_order__produ__47DBAE45">
+            <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+            <End Role="tbl_orderDetail" EntitySet="tbl_orderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Order__user___45F365D3" Association="Self.FK__tbl_Order__user___45F365D3">
+            <End Role="tbl_user" EntitySet="tbl_user" />
+            <End Role="tbl_Order" EntitySet="tbl_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__categ__49C3F6B7" Association="Self.FK__tbl_produ__categ__49C3F6B7">
+            <End Role="tbl_category" EntitySet="tbl_category" />
+            <End Role="tbl_product" EntitySet="tbl_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__color__4CA06362" Association="Self.FK__tbl_produ__color__4CA06362">
+            <End Role="tbl_color" EntitySet="tbl_color" />
+            <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__produ__4AB81AF0" Association="Self.FK__tbl_produ__produ__4AB81AF0">
+            <End Role="tbl_producer" EntitySet="tbl_producer" />
+            <End Role="tbl_product" EntitySet="tbl_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__produ__4D94879B" Association="Self.FK__tbl_produ__produ__4D94879B">
+            <End Role="tbl_product" EntitySet="tbl_product" />
+            <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__state__48CFD27E" Association="Self.FK__tbl_produ__state__48CFD27E">
+            <End Role="tbl_state" EntitySet="tbl_state" />
+            <End Role="tbl_producer" EntitySet="tbl_producer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__state__4BAC3F29" Association="Self.FK__tbl_produ__state__4BAC3F29">
+            <End Role="tbl_state" EntitySet="tbl_state" />
+            <End Role="tbl_product" EntitySet="tbl_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_user__questi__4E88ABD4" Association="Self.FK__tbl_user__questi__4E88ABD4">
+            <End Role="tbl_question" EntitySet="tbl_question" />
+            <End Role="tbl_user" EntitySet="tbl_user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HAWContextModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="admin_name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="admin_password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="admin_phone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="admin_email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="admin_isEmployee" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_cart">
+          <Key>
+            <PropertyRef Name="cart_id" />
+          </Key>
+          <Property Name="cart_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="account_id" Type="Int32" />
+          <Property Name="total_price" Type="Double" />
+          <Property Name="date_cart" Type="DateTime" Precision="0" />
+          <Property Name="orderState_id" Type="Int32" />
+          <Property Name="note_buyer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="session_id" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="tbl_user" Relationship="Self.FK__tbl_cart__accoun__4222D4EF" FromRole="tbl_cart" ToRole="tbl_user" />
+          <NavigationProperty Name="tbl_cartDetail" Relationship="Self.FK__tbl_cartD__cart___4316F928" FromRole="tbl_cart" ToRole="tbl_cartDetail" />
+        </EntityType>
+        <EntityType Name="tbl_cartDetail">
+          <Key>
+            <PropertyRef Name="cart_detail_id" />
+          </Key>
+          <Property Name="cart_detail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productColor_id" Type="Int32" />
+          <Property Name="cart_id" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="price" Type="Double" />
+          <NavigationProperty Name="tbl_cart" Relationship="Self.FK__tbl_cartD__cart___4316F928" FromRole="tbl_cartDetail" ToRole="tbl_cart" />
+          <NavigationProperty Name="tbl_productColor" Relationship="Self.FK__tbl_cartD__produ__440B1D61" FromRole="tbl_cartDetail" ToRole="tbl_productColor" />
+        </EntityType>
+        <EntityType Name="tbl_category">
+          <Key>
+            <PropertyRef Name="category_id" />
+          </Key>
+          <Property Name="category_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="category_parent" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_product" Relationship="Self.FK__tbl_produ__categ__49C3F6B7" FromRole="tbl_category" ToRole="tbl_product" />
+        </EntityType>
+        <EntityType Name="tbl_color">
+          <Key>
+            <PropertyRef Name="color_id" />
+          </Key>
+          <Property Name="color_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="color_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="color_img" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_productColor" Relationship="Self.FK__tbl_produ__color__4CA06362" FromRole="tbl_color" ToRole="tbl_productColor" />
+        </EntityType>
+        <EntityType Name="tbl_contact">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="comment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="time" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="order_receiver_note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="order_total_price" Type="Double" />
+          <Property Name="order_state" Type="Int32" />
+          <NavigationProperty Name="tbl_orderDetail" Relationship="Self.FK__tbl_order__oder___46E78A0C" FromRole="tbl_Order" ToRole="tbl_orderDetail" />
+          <NavigationProperty Name="tbl_state" Relationship="Self.FK__tbl_Order__order__44FF419A" FromRole="tbl_Order" ToRole="tbl_state" />
+          <NavigationProperty Name="tbl_user" Relationship="Self.FK__tbl_Order__user___45F365D3" FromRole="tbl_Order" ToRole="tbl_user" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_orderDetail">
+          <Key>
+            <PropertyRef Name="order_detail_id" />
+          </Key>
+          <Property Name="order_detail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productColor_id" Type="Int32" />
+          <Property Name="oder_id" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="price" Type="Double" />
+          <Property Name="order_detail_note" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Order" Relationship="Self.FK__tbl_order__oder___46E78A0C" FromRole="tbl_orderDetail" ToRole="tbl_Order" />
+          <NavigationProperty Name="tbl_productColor" Relationship="Self.FK__tbl_order__produ__47DBAE45" FromRole="tbl_orderDetail" ToRole="tbl_productColor" />
+        </EntityType>
+        <EntityType Name="tbl_producer">
+          <Key>
+            <PropertyRef Name="producer_id" />
+          </Key>
+          <Property Name="producer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="producer_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="producer_address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="state" Type="Int32" />
+          <NavigationProperty Name="tbl_product" Relationship="Self.FK__tbl_produ__produ__4AB81AF0" FromRole="tbl_producer" ToRole="tbl_product" />
+          <NavigationProperty Name="tbl_state" Relationship="Self.FK__tbl_produ__state__48CFD27E" FromRole="tbl_producer" ToRole="tbl_state" />
+        </EntityType>
+        <EntityType Name="tbl_product">
+          <Key>
+            <PropertyRef Name="product_id" />
+          </Key>
+          <Property Name="product_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_alias" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_content" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_img" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_sub_img" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_isHot" Type="Boolean" />
+          <Property Name="product_isNew" Type="Boolean" />
+          <Property Name="product_isSale" Type="Boolean" />
+          <Property Name="product_CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="product_UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="product_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_package" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_delivery" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_delivery_time" Type="DateTime" Precision="3" />
+          <Property Name="product_payment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_payment_type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_sub_info" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="state" Type="Int32" />
+          <Property Name="title_seo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="des_seo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="friendly_url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="keyword" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_material" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_shape" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="product_producer" Type="Int32" />
+          <Property Name="category_id" Type="Int32" />
+          <NavigationProperty Name="tbl_category" Relationship="Self.FK__tbl_produ__categ__49C3F6B7" FromRole="tbl_product" ToRole="tbl_category" />
+          <NavigationProperty Name="tbl_producer" Relationship="Self.FK__tbl_produ__produ__4AB81AF0" FromRole="tbl_product" ToRole="tbl_producer" />
+          <NavigationProperty Name="tbl_productColor" Relationship="Self.FK__tbl_produ__produ__4D94879B" FromRole="tbl_product" ToRole="tbl_productColor" />
+          <NavigationProperty Name="tbl_state" Relationship="Self.FK__tbl_produ__state__4BAC3F29" FromRole="tbl_product" ToRole="tbl_state" />
+          <Property Name="TongSoSao" Type="Int32" />
+          <Property Name="TongSoDanhGia" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_productColor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="color_id" Type="Int32" Nullable="false" />
+          <Property Name="product_id" Type="Int32" Nullable="false" />
+          <Property Name="size" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="product_price" Type="Double" />
+          <Property Name="product_sale" Type="Double" />
+          <Property Name="product_discount" Type="Double" />
+          <NavigationProperty Name="tbl_cartDetail" Relationship="Self.FK__tbl_cartD__produ__440B1D61" FromRole="tbl_productColor" ToRole="tbl_cartDetail" />
+          <NavigationProperty Name="tbl_color" Relationship="Self.FK__tbl_produ__color__4CA06362" FromRole="tbl_productColor" ToRole="tbl_color" />
+          <NavigationProperty Name="tbl_orderDetail" Relationship="Self.FK__tbl_order__produ__47DBAE45" FromRole="tbl_productColor" ToRole="tbl_orderDetail" />
+          <NavigationProperty Name="tbl_product" Relationship="Self.FK__tbl_produ__produ__4D94879B" FromRole="tbl_productColor" ToRole="tbl_product" />
+        </EntityType>
+        <EntityType Name="tbl_question">
+          <Key>
+            <PropertyRef Name="question_id" />
+          </Key>
+          <Property Name="question_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="question" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_user" Relationship="Self.FK__tbl_user__questi__4E88ABD4" FromRole="tbl_question" ToRole="tbl_user" />
+        </EntityType>
+        <EntityType Name="tbl_state">
+          <Key>
+            <PropertyRef Name="state_id" />
+          </Key>
+          <Property Name="state_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="state_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Order" Relationship="Self.FK__tbl_Order__order__44FF419A" FromRole="tbl_state" ToRole="tbl_Order" />
+          <NavigationProperty Name="tbl_producer" Relationship="Self.FK__tbl_produ__state__48CFD27E" FromRole="tbl_state" ToRole="tbl_producer" />
+          <NavigationProperty Name="tbl_product" Relationship="Self.FK__tbl_produ__state__4BAC3F29" FromRole="tbl_state" ToRole="tbl_product" />
+        </EntityType>
+        <EntityType Name="tbl_user">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="user_email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="user_phone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="user_address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="user_password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="time" Type="DateTime" Precision="0" />
+          <Property Name="question_id" Type="Int32" />
+          <Property Name="answer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="remember_me_identify" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="remember_me_token" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_cart" Relationship="Self.FK__tbl_cart__accoun__4222D4EF" FromRole="tbl_user" ToRole="tbl_cart" />
+          <NavigationProperty Name="tbl_Order" Relationship="Self.FK__tbl_Order__user___45F365D3" FromRole="tbl_user" ToRole="tbl_Order" />
+          <NavigationProperty Name="tbl_question" Relationship="Self.FK__tbl_user__questi__4E88ABD4" FromRole="tbl_user" ToRole="tbl_question" />
+        </EntityType>
+        <Association Name="FK__tbl_cart__accoun__4222D4EF">
+          <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_cart" Type="Self.tbl_cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="tbl_cart">
+              <PropertyRef Name="account_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_cartD__cart___4316F928">
+          <End Role="tbl_cart" Type="Self.tbl_cart" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_cartDetail" Type="Self.tbl_cartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_cart">
+              <PropertyRef Name="cart_id" />
+            </Principal>
+            <Dependent Role="tbl_cartDetail">
+              <PropertyRef Name="cart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_cartD__produ__440B1D61">
+          <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_cartDetail" Type="Self.tbl_cartDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_productColor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_cartDetail">
+              <PropertyRef Name="productColor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__categ__49C3F6B7">
+          <End Role="tbl_category" Type="Self.tbl_category" Multiplicity="0..1" />
+          <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_category">
+              <PropertyRef Name="category_id" />
+            </Principal>
+            <Dependent Role="tbl_product">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__color__4CA06362">
+          <End Role="tbl_color" Type="Self.tbl_color" Multiplicity="1" />
+          <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_color">
+              <PropertyRef Name="color_id" />
+            </Principal>
+            <Dependent Role="tbl_productColor">
+              <PropertyRef Name="color_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_order__oder___46E78A0C">
+          <End Role="tbl_Order" Type="Self.tbl_Order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_orderDetail" Type="Self.tbl_orderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Order">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="tbl_orderDetail">
+              <PropertyRef Name="oder_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Order__order__44FF419A">
+          <End Role="tbl_state" Type="Self.tbl_state" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Order" Type="Self.tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_state">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="tbl_Order">
+              <PropertyRef Name="order_state" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Order__user___45F365D3">
+          <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="0..1" />
+          <End Role="tbl_Order" Type="Self.tbl_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="tbl_Order">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_order__produ__47DBAE45">
+          <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_orderDetail" Type="Self.tbl_orderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_productColor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_orderDetail">
+              <PropertyRef Name="productColor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__produ__4AB81AF0">
+          <End Role="tbl_producer" Type="Self.tbl_producer" Multiplicity="0..1" />
+          <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_producer">
+              <PropertyRef Name="producer_id" />
+            </Principal>
+            <Dependent Role="tbl_product">
+              <PropertyRef Name="product_producer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__state__48CFD27E">
+          <End Role="tbl_state" Type="Self.tbl_state" Multiplicity="0..1" />
+          <End Role="tbl_producer" Type="Self.tbl_producer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_state">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="tbl_producer">
+              <PropertyRef Name="state" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__produ__4D94879B">
+          <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="1" />
+          <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_product">
+              <PropertyRef Name="product_id" />
+            </Principal>
+            <Dependent Role="tbl_productColor">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_produ__state__4BAC3F29">
+          <End Role="tbl_state" Type="Self.tbl_state" Multiplicity="0..1" />
+          <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_state">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="tbl_product">
+              <PropertyRef Name="state" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_user__questi__4E88ABD4">
+          <End Role="tbl_question" Type="Self.tbl_question" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_question">
+              <PropertyRef Name="question_id" />
+            </Principal>
+            <Dependent Role="tbl_user">
+              <PropertyRef Name="question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HAWContextEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_admin" EntityType="Self.tbl_admin" />
+          <EntitySet Name="tbl_cart" EntityType="Self.tbl_cart" />
+          <EntitySet Name="tbl_cartDetail" EntityType="Self.tbl_cartDetail" />
+          <EntitySet Name="tbl_category" EntityType="Self.tbl_category" />
+          <EntitySet Name="tbl_color" EntityType="Self.tbl_color" />
+          <EntitySet Name="tbl_contact" EntityType="Self.tbl_contact" />
+          <EntitySet Name="tbl_Order" EntityType="Self.tbl_Order" />
+          <EntitySet Name="tbl_orderDetail" EntityType="Self.tbl_orderDetail" />
+          <EntitySet Name="tbl_producer" EntityType="Self.tbl_producer" />
+          <EntitySet Name="tbl_product" EntityType="Self.tbl_product" />
+          <EntitySet Name="tbl_productColor" EntityType="Self.tbl_productColor" />
+          <EntitySet Name="tbl_question" EntityType="Self.tbl_question" />
+          <EntitySet Name="tbl_state" EntityType="Self.tbl_state" />
+          <EntitySet Name="tbl_user" EntityType="Self.tbl_user" />
+          <AssociationSet Name="FK__tbl_cart__accoun__4222D4EF" Association="Self.FK__tbl_cart__accoun__4222D4EF">
+            <End Role="tbl_user" EntitySet="tbl_user" />
+            <End Role="tbl_cart" EntitySet="tbl_cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_cartD__cart___4316F928" Association="Self.FK__tbl_cartD__cart___4316F928">
+            <End Role="tbl_cart" EntitySet="tbl_cart" />
+            <End Role="tbl_cartDetail" EntitySet="tbl_cartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_cartD__produ__440B1D61" Association="Self.FK__tbl_cartD__produ__440B1D61">
+            <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+            <End Role="tbl_cartDetail" EntitySet="tbl_cartDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__categ__49C3F6B7" Association="Self.FK__tbl_produ__categ__49C3F6B7">
+            <End Role="tbl_category" EntitySet="tbl_category" />
+            <End Role="tbl_product" EntitySet="tbl_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__color__4CA06362" Association="Self.FK__tbl_produ__color__4CA06362">
+            <End Role="tbl_color" EntitySet="tbl_color" />
+            <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_order__oder___46E78A0C" Association="Self.FK__tbl_order__oder___46E78A0C">
+            <End Role="tbl_Order" EntitySet="tbl_Order" />
+            <End Role="tbl_orderDetail" EntitySet="tbl_orderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Order__order__44FF419A" Association="Self.FK__tbl_Order__order__44FF419A">
+            <End Role="tbl_state" EntitySet="tbl_state" />
+            <End Role="tbl_Order" EntitySet="tbl_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Order__user___45F365D3" Association="Self.FK__tbl_Order__user___45F365D3">
+            <End Role="tbl_user" EntitySet="tbl_user" />
+            <End Role="tbl_Order" EntitySet="tbl_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_order__produ__47DBAE45" Association="Self.FK__tbl_order__produ__47DBAE45">
+            <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+            <End Role="tbl_orderDetail" EntitySet="tbl_orderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__produ__4AB81AF0" Association="Self.FK__tbl_produ__produ__4AB81AF0">
+            <End Role="tbl_producer" EntitySet="tbl_producer" />
+            <End Role="tbl_product" EntitySet="tbl_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__state__48CFD27E" Association="Self.FK__tbl_produ__state__48CFD27E">
+            <End Role="tbl_state" EntitySet="tbl_state" />
+            <End Role="tbl_producer" EntitySet="tbl_producer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__produ__4D94879B" Association="Self.FK__tbl_produ__produ__4D94879B">
+            <End Role="tbl_product" EntitySet="tbl_product" />
+            <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_produ__state__4BAC3F29" Association="Self.FK__tbl_produ__state__4BAC3F29">
+            <End Role="tbl_state" EntitySet="tbl_state" />
+            <End Role="tbl_product" EntitySet="tbl_product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_user__questi__4E88ABD4" Association="Self.FK__tbl_user__questi__4E88ABD4">
+            <End Role="tbl_question" EntitySet="tbl_question" />
+            <End Role="tbl_user" EntitySet="tbl_user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HAWContextModelStoreContainer" CdmEntityContainer="HAWContextEntities">
+          <EntitySetMapping Name="tbl_admin">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_admin">
+              <MappingFragment StoreEntitySet="tbl_admin">
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="admin_name" ColumnName="admin_name" />
+                <ScalarProperty Name="admin_password" ColumnName="admin_password" />
+                <ScalarProperty Name="admin_phone" ColumnName="admin_phone" />
+                <ScalarProperty Name="admin_email" ColumnName="admin_email" />
+                <ScalarProperty Name="admin_isEmployee" ColumnName="admin_isEmployee" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_cart">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_cart">
+              <MappingFragment StoreEntitySet="tbl_cart">
+                <ScalarProperty Name="cart_id" ColumnName="cart_id" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="total_price" ColumnName="total_price" />
+                <ScalarProperty Name="date_cart" ColumnName="date_cart" />
+                <ScalarProperty Name="orderState_id" ColumnName="orderState_id" />
+                <ScalarProperty Name="note_buyer" ColumnName="note_buyer" />
+                <ScalarProperty Name="session_id" ColumnName="session_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_cartDetail">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_cartDetail">
+              <MappingFragment StoreEntitySet="tbl_cartDetail">
+                <ScalarProperty Name="cart_detail_id" ColumnName="cart_detail_id" />
+                <ScalarProperty Name="productColor_id" ColumnName="productColor_id" />
+                <ScalarProperty Name="cart_id" ColumnName="cart_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_category">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_category">
+              <MappingFragment StoreEntitySet="tbl_category">
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="category_parent" ColumnName="category_parent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_color">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_color">
+              <MappingFragment StoreEntitySet="tbl_color">
+                <ScalarProperty Name="color_id" ColumnName="color_id" />
+                <ScalarProperty Name="color_name" ColumnName="color_name" />
+                <ScalarProperty Name="color_img" ColumnName="color_img" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_contact">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_contact">
+              <MappingFragment StoreEntitySet="tbl_contact">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="time" ColumnName="time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Order">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_Order">
+              <MappingFragment StoreEntitySet="tbl_Order">
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="order_receiver_note" ColumnName="order_receiver_note" />
+                <ScalarProperty Name="order_total_price" ColumnName="order_total_price" />
+                <ScalarProperty Name="order_state" ColumnName="order_state" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_orderDetail">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_orderDetail">
+              <MappingFragment StoreEntitySet="tbl_orderDetail">
+                <ScalarProperty Name="order_detail_id" ColumnName="order_detail_id" />
+                <ScalarProperty Name="productColor_id" ColumnName="productColor_id" />
+                <ScalarProperty Name="oder_id" ColumnName="oder_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="order_detail_note" ColumnName="order_detail_note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_producer">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_producer">
+              <MappingFragment StoreEntitySet="tbl_producer">
+                <ScalarProperty Name="producer_id" ColumnName="producer_id" />
+                <ScalarProperty Name="producer_name" ColumnName="producer_name" />
+                <ScalarProperty Name="producer_address" ColumnName="producer_address" />
+                <ScalarProperty Name="state" ColumnName="state" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_product">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_product">
+              <MappingFragment StoreEntitySet="tbl_product">
+                <ScalarProperty Name="TongSoDanhGia" ColumnName="TongSoDanhGia" />
+                <ScalarProperty Name="TongSoSao" ColumnName="TongSoSao" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="product_name" ColumnName="product_name" />
+                <ScalarProperty Name="product_alias" ColumnName="product_alias" />
+                <ScalarProperty Name="product_description" ColumnName="product_description" />
+                <ScalarProperty Name="product_content" ColumnName="product_content" />
+                <ScalarProperty Name="product_img" ColumnName="product_img" />
+                <ScalarProperty Name="product_sub_img" ColumnName="product_sub_img" />
+                <ScalarProperty Name="product_isHot" ColumnName="product_isHot" />
+                <ScalarProperty Name="product_isNew" ColumnName="product_isNew" />
+                <ScalarProperty Name="product_isSale" ColumnName="product_isSale" />
+                <ScalarProperty Name="product_CreatedAt" ColumnName="product_CreatedAt" />
+                <ScalarProperty Name="product_UpdatedAt" ColumnName="product_UpdatedAt" />
+                <ScalarProperty Name="product_code" ColumnName="product_code" />
+                <ScalarProperty Name="product_package" ColumnName="product_package" />
+                <ScalarProperty Name="product_delivery" ColumnName="product_delivery" />
+                <ScalarProperty Name="product_delivery_time" ColumnName="product_delivery_time" />
+                <ScalarProperty Name="product_payment" ColumnName="product_payment" />
+                <ScalarProperty Name="product_payment_type" ColumnName="product_payment_type" />
+                <ScalarProperty Name="product_sub_info" ColumnName="product_sub_info" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="title_seo" ColumnName="title_seo" />
+                <ScalarProperty Name="des_seo" ColumnName="des_seo" />
+                <ScalarProperty Name="friendly_url" ColumnName="friendly_url" />
+                <ScalarProperty Name="keyword" ColumnName="keyword" />
+                <ScalarProperty Name="product_material" ColumnName="product_material" />
+                <ScalarProperty Name="product_shape" ColumnName="product_shape" />
+                <ScalarProperty Name="product_producer" ColumnName="product_producer" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_productColor">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_productColor">
+              <MappingFragment StoreEntitySet="tbl_productColor">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="color_id" ColumnName="color_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="product_price" ColumnName="product_price" />
+                <ScalarProperty Name="product_sale" ColumnName="product_sale" />
+                <ScalarProperty Name="product_discount" ColumnName="product_discount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_question">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_question">
+              <MappingFragment StoreEntitySet="tbl_question">
+                <ScalarProperty Name="question_id" ColumnName="question_id" />
+                <ScalarProperty Name="question" ColumnName="question" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_state">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_state">
+              <MappingFragment StoreEntitySet="tbl_state">
+                <ScalarProperty Name="state_id" ColumnName="state_id" />
+                <ScalarProperty Name="state_name" ColumnName="state_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_user">
+            <EntityTypeMapping TypeName="HAWContextModel.tbl_user">
+              <MappingFragment StoreEntitySet="tbl_user">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_email" ColumnName="user_email" />
+                <ScalarProperty Name="user_phone" ColumnName="user_phone" />
+                <ScalarProperty Name="user_address" ColumnName="user_address" />
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="question_id" ColumnName="question_id" />
+                <ScalarProperty Name="answer" ColumnName="answer" />
+                <ScalarProperty Name="remember_me_identify" ColumnName="remember_me_identify" />
+                <ScalarProperty Name="remember_me_token" ColumnName="remember_me_token" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

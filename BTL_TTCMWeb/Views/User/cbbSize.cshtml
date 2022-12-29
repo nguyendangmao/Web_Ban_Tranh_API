@@ -1,0 +1,7 @@
+﻿@model IQueryable<BTL_TTCMWeb.Models.tbl_productColor>
+    @*Kích thước ảnh*@
+<select class="form-control col-sm-3" onchange="changeSize()" id="cbbSize">
+    @foreach (var item in Model)
+    {
+<option value="@item.size">@item.size</option>}
+</select>

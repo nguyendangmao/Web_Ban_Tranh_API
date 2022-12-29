@@ -1,0 +1,136 @@
+﻿@model BTL_TTCMWeb.Models.tbl_user
+
+@{ ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LaytheomaTB();
+        });
+        function LaytheomaTB() {
+            $.ajax({
+                url: ' https://localhost:44386/LayCauHoi/',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi mã");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        table = table + '<hr>'
+                        table = table + '<option value="' + reponse[i].question_id + '">' + reponse[i].question + '</option>'
+                    }
+                    document.getElementById('question').innerHTML = table;
+                },
+                fail: function (response) { }
+            })
+        }
+    </script>
+}
+<div class="container" onsubmit="return valid()">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal col-sm-8">
+        <h2 style="text-align:center; font-weight:bold; padding-top: 20px">Đăng Ký</h2>
+        <hr />
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên tài khoản</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.user_name, new { htmlAttributes = new { @class = "form-control", @id = "Name" } })
+                @Html.ValidationMessageFor(model => model.user_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Email</label>
+            <div class="col-md-10">
+                <input type='text' name='email' class="form-control" id="email" />
+                @Html.ValidationMessageFor(model => model.user_email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Số điện thoại</label>
+            <div class="col-md-10">
+                <input type='text' name='email' class="form-control" id="email" />
+                @Html.ValidationMessageFor(model => model.user_phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Địa chỉ</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.user_address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.user_address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Mật khẩu</label>
+            <div class="col-md-10">
+                <input type="password" id="user_password" name="user_password" class="form-control" />
+                @Html.ValidationMessageFor(model => model.user_password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Câu hỏi bảo mật : </label>
+            <div class="col-md-4">
+                <select id="question" name="question" style="width:362px;height:36px"></select>
+                @Html.ValidationMessageFor(model => model.question_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Câu trả lời : </label>
+            <div class="col-md-4">
+                <input type="text" id="Traloi" name="Traloi" class="form-control" />
+                @Html.ValidationMessageFor(model => model.answer, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Đăng Ký" class="btn btn-info" onclick="validation()" />
+            </div>
+        </div>
+    </div>}
+</div>
+<script type="text/javascript">
+    function IsNumeric(strString) {
+        var strValidChars = "0123456789";
+        var strChar;
+        var blnResult = true;
+        if (strString.length == 0) return false;
+        for (i = 0; i < strString.length && blnResult == true; i++) {
+            strChar = strString.charAt(i);
+            if (strValidChars.indexOf(strChar) == -1) {
+                blnResult = false;
+            }
+        }
+        return blnResult;
+    }
+    function valid() {
+        if (document.getElementById("Name").value == "") {
+            alert("Vui lòng cho biết tên !");
+            return false;
+        }
+        if (document.getElementById("Phone").value == "") {
+            alert("Vui lòng nhập số điện thoại chính xác để chúng tôi liên hệ lại với quý khách !");
+            return false;
+        }
+        if (!IsNumeric(document.getElementById("Phone").value)) {
+            alert("Số điện thoại không hợp lệ!");
+            return false;
+        }
+        if (document.getElementById("email").value == "") {
+            alert("Vui lòng nhập email!");
+            return false;
+        }
+        return true;
+    }
+    </script> 

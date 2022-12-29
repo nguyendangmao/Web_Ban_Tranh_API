@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HAWContextModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tbl_admin">
+    <Key>
+      <PropertyRef Name="admin_id" />
+    </Key>
+    <Property Name="admin_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="admin_name" Type="nvarchar" MaxLength="200" />
+    <Property Name="admin_password" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="admin_phone" Type="nvarchar" MaxLength="11" />
+    <Property Name="admin_email" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="admin_isEmployee" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_cart">
+    <Key>
+      <PropertyRef Name="cart_id" />
+    </Key>
+    <Property Name="cart_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="account_id" Type="int" />
+    <Property Name="total_price" Type="float" />
+    <Property Name="date_cart" Type="date" />
+    <Property Name="orderState_id" Type="int" />
+    <Property Name="note_buyer" Type="nvarchar" MaxLength="255" />
+    <Property Name="session_id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_cartDetail">
+    <Key>
+      <PropertyRef Name="cart_detail_id" />
+    </Key>
+    <Property Name="cart_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productColor_id" Type="int" />
+    <Property Name="cart_id" Type="int" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="price" Type="float" />
+  </EntityType>
+  <EntityType Name="tbl_category">
+    <Key>
+      <PropertyRef Name="category_id" />
+    </Key>
+    <Property Name="category_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="category_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="category_parent" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="tbl_color">
+    <Key>
+      <PropertyRef Name="color_id" />
+    </Key>
+    <Property Name="color_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="color_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="color_img" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="tbl_contact">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+    <Property Name="phone" Type="nvarchar" MaxLength="255" />
+    <Property Name="address" Type="nvarchar" MaxLength="255" />
+    <Property Name="comment" Type="nvarchar" MaxLength="255" />
+    <Property Name="time" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="tbl_Order">
+    <Key>
+      <PropertyRef Name="order_id" />
+    </Key>
+    <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_id" Type="int" />
+    <Property Name="order_receiver_note" Type="nvarchar" MaxLength="255" />
+    <Property Name="order_total_price" Type="float" />
+    <Property Name="order_state" Type="int" />
+    <Property Name="date" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tbl_orderDetail">
+    <Key>
+      <PropertyRef Name="order_detail_id" />
+    </Key>
+    <Property Name="order_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productColor_id" Type="int" />
+    <Property Name="oder_id" Type="int" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="price" Type="float" />
+    <Property Name="order_detail_note" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="tbl_producer">
+    <Key>
+      <PropertyRef Name="producer_id" />
+    </Key>
+    <Property Name="producer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="producer_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="producer_address" Type="nvarchar" MaxLength="255" />
+    <Property Name="state" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_product">
+    <Key>
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="product_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_alias" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_description" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_content" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_img" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_sub_img" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_isHot" Type="bit" />
+    <Property Name="product_isNew" Type="bit" />
+    <Property Name="product_isSale" Type="bit" />
+    <Property Name="product_CreatedAt" Type="datetime" />
+    <Property Name="product_UpdatedAt" Type="datetime" />
+    <Property Name="product_code" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_package" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_delivery" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_delivery_time" Type="datetime" />
+    <Property Name="product_payment" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_payment_type" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_sub_info" Type="nvarchar" MaxLength="255" />
+    <Property Name="state" Type="int" />
+    <Property Name="title_seo" Type="nvarchar" MaxLength="255" />
+    <Property Name="des_seo" Type="nvarchar" MaxLength="255" />
+    <Property Name="friendly_url" Type="nvarchar" MaxLength="255" />
+    <Property Name="keyword" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_material" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_shape" Type="nvarchar" MaxLength="255" />
+    <Property Name="product_producer" Type="int" />
+    <Property Name="category_id" Type="int" />
+    <Property Name="TongSoSao" Type="int" />
+    <Property Name="TongSoDanhGia" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_productColor">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="color_id" Type="int" Nullable="false" />
+    <Property Name="product_id" Type="int" Nullable="false" />
+    <Property Name="size" Type="nvarchar" MaxLength="255" />
+    <Property Name="amount" Type="int" Nullable="false" />
+    <Property Name="product_price" Type="float" />
+    <Property Name="product_sale" Type="float" />
+    <Property Name="product_discount" Type="float" />
+  </EntityType>
+  <EntityType Name="tbl_question">
+    <Key>
+      <PropertyRef Name="question_id" />
+    </Key>
+    <Property Name="question_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="question" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="tbl_state">
+    <Key>
+      <PropertyRef Name="state_id" />
+    </Key>
+    <Property Name="state_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="state_name" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="tbl_user">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_name" Type="nvarchar" MaxLength="255" />
+    <Property Name="user_email" Type="nvarchar" MaxLength="255" />
+    <Property Name="user_phone" Type="nvarchar" MaxLength="11" />
+    <Property Name="user_address" Type="nvarchar" MaxLength="500" />
+    <Property Name="user_password" Type="nvarchar" MaxLength="255" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="isActive" Type="bit" Nullable="false" />
+    <Property Name="time" Type="date" />
+    <Property Name="question_id" Type="int" />
+    <Property Name="answer" Type="nvarchar" MaxLength="500" />
+    <Property Name="remember_me_identify" Type="nvarchar" MaxLength="500" />
+    <Property Name="remember_me_token" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <Association Name="FK__tbl_cart__accoun__4222D4EF">
+    <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tbl_cart" Type="Self.tbl_cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_user">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="tbl_cart">
+        <PropertyRef Name="account_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_cartD__cart___4316F928">
+    <End Role="tbl_cart" Type="Self.tbl_cart" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tbl_cartDetail" Type="Self.tbl_cartDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_cart">
+        <PropertyRef Name="cart_id" />
+      </Principal>
+      <Dependent Role="tbl_cartDetail">
+        <PropertyRef Name="cart_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_cartD__produ__440B1D61">
+    <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tbl_cartDetail" Type="Self.tbl_cartDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_productColor">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_cartDetail">
+        <PropertyRef Name="productColor_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_order__oder___46E78A0C">
+    <End Role="tbl_Order" Type="Self.tbl_Order" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tbl_orderDetail" Type="Self.tbl_orderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Order">
+        <PropertyRef Name="order_id" />
+      </Principal>
+      <Dependent Role="tbl_orderDetail">
+        <PropertyRef Name="oder_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Order__order__44FF419A">
+    <End Role="tbl_state" Type="Self.tbl_state" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tbl_Order" Type="Self.tbl_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_state">
+        <PropertyRef Name="state_id" />
+      </Principal>
+      <Dependent Role="tbl_Order">
+        <PropertyRef Name="order_state" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_order__produ__47DBAE45">
+    <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tbl_orderDetail" Type="Self.tbl_orderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_productColor">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="tbl_orderDetail">
+        <PropertyRef Name="productColor_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Order__user___45F365D3">
+    <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="0..1" />
+    <End Role="tbl_Order" Type="Self.tbl_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_user">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="tbl_Order">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_produ__categ__49C3F6B7">
+    <End Role="tbl_category" Type="Self.tbl_category" Multiplicity="0..1" />
+    <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_category">
+        <PropertyRef Name="category_id" />
+      </Principal>
+      <Dependent Role="tbl_product">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_produ__color__4CA06362">
+    <End Role="tbl_color" Type="Self.tbl_color" Multiplicity="1" />
+    <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_color">
+        <PropertyRef Name="color_id" />
+      </Principal>
+      <Dependent Role="tbl_productColor">
+        <PropertyRef Name="color_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_produ__produ__4AB81AF0">
+    <End Role="tbl_producer" Type="Self.tbl_producer" Multiplicity="0..1" />
+    <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_producer">
+        <PropertyRef Name="producer_id" />
+      </Principal>
+      <Dependent Role="tbl_product">
+        <PropertyRef Name="product_producer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_produ__produ__4D94879B">
+    <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="1" />
+    <End Role="tbl_productColor" Type="Self.tbl_productColor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_product">
+        <PropertyRef Name="product_id" />
+      </Principal>
+      <Dependent Role="tbl_productColor">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_produ__state__48CFD27E">
+    <End Role="tbl_state" Type="Self.tbl_state" Multiplicity="0..1" />
+    <End Role="tbl_producer" Type="Self.tbl_producer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_state">
+        <PropertyRef Name="state_id" />
+      </Principal>
+      <Dependent Role="tbl_producer">
+        <PropertyRef Name="state" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_produ__state__4BAC3F29">
+    <End Role="tbl_state" Type="Self.tbl_state" Multiplicity="0..1" />
+    <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_state">
+        <PropertyRef Name="state_id" />
+      </Principal>
+      <Dependent Role="tbl_product">
+        <PropertyRef Name="state" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_user__questi__4E88ABD4">
+    <End Role="tbl_question" Type="Self.tbl_question" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tbl_user" Type="Self.tbl_user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_question">
+        <PropertyRef Name="question_id" />
+      </Principal>
+      <Dependent Role="tbl_user">
+        <PropertyRef Name="question_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HAWContextModelStoreContainer">
+    <EntitySet Name="tbl_admin" EntityType="Self.tbl_admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_cart" EntityType="Self.tbl_cart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_cartDetail" EntityType="Self.tbl_cartDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_category" EntityType="Self.tbl_category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_color" EntityType="Self.tbl_color" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_contact" EntityType="Self.tbl_contact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Order" EntityType="Self.tbl_Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_orderDetail" EntityType="Self.tbl_orderDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_producer" EntityType="Self.tbl_producer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_product" EntityType="Self.tbl_product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_productColor" EntityType="Self.tbl_productColor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_question" EntityType="Self.tbl_question" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_state" EntityType="Self.tbl_state" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_user" EntityType="Self.tbl_user" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__tbl_cart__accoun__4222D4EF" Association="Self.FK__tbl_cart__accoun__4222D4EF">
+      <End Role="tbl_user" EntitySet="tbl_user" />
+      <End Role="tbl_cart" EntitySet="tbl_cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_cartD__cart___4316F928" Association="Self.FK__tbl_cartD__cart___4316F928">
+      <End Role="tbl_cart" EntitySet="tbl_cart" />
+      <End Role="tbl_cartDetail" EntitySet="tbl_cartDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_cartD__produ__440B1D61" Association="Self.FK__tbl_cartD__produ__440B1D61">
+      <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+      <End Role="tbl_cartDetail" EntitySet="tbl_cartDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_order__oder___46E78A0C" Association="Self.FK__tbl_order__oder___46E78A0C">
+      <End Role="tbl_Order" EntitySet="tbl_Order" />
+      <End Role="tbl_orderDetail" EntitySet="tbl_orderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Order__order__44FF419A" Association="Self.FK__tbl_Order__order__44FF419A">
+      <End Role="tbl_state" EntitySet="tbl_state" />
+      <End Role="tbl_Order" EntitySet="tbl_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_order__produ__47DBAE45" Association="Self.FK__tbl_order__produ__47DBAE45">
+      <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+      <End Role="tbl_orderDetail" EntitySet="tbl_orderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Order__user___45F365D3" Association="Self.FK__tbl_Order__user___45F365D3">
+      <End Role="tbl_user" EntitySet="tbl_user" />
+      <End Role="tbl_Order" EntitySet="tbl_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_produ__categ__49C3F6B7" Association="Self.FK__tbl_produ__categ__49C3F6B7">
+      <End Role="tbl_category" EntitySet="tbl_category" />
+      <End Role="tbl_product" EntitySet="tbl_product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_produ__color__4CA06362" Association="Self.FK__tbl_produ__color__4CA06362">
+      <End Role="tbl_color" EntitySet="tbl_color" />
+      <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_produ__produ__4AB81AF0" Association="Self.FK__tbl_produ__produ__4AB81AF0">
+      <End Role="tbl_producer" EntitySet="tbl_producer" />
+      <End Role="tbl_product" EntitySet="tbl_product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_produ__produ__4D94879B" Association="Self.FK__tbl_produ__produ__4D94879B">
+      <End Role="tbl_product" EntitySet="tbl_product" />
+      <End Role="tbl_productColor" EntitySet="tbl_productColor" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_produ__state__48CFD27E" Association="Self.FK__tbl_produ__state__48CFD27E">
+      <End Role="tbl_state" EntitySet="tbl_state" />
+      <End Role="tbl_producer" EntitySet="tbl_producer" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_produ__state__4BAC3F29" Association="Self.FK__tbl_produ__state__4BAC3F29">
+      <End Role="tbl_state" EntitySet="tbl_state" />
+      <End Role="tbl_product" EntitySet="tbl_product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_user__questi__4E88ABD4" Association="Self.FK__tbl_user__questi__4E88ABD4">
+      <End Role="tbl_question" EntitySet="tbl_question" />
+      <End Role="tbl_user" EntitySet="tbl_user" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

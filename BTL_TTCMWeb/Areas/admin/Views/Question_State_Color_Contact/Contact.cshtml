@@ -1,0 +1,287 @@
+﻿
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetAll();
+        });
+        function LaytheomaTB(id) {
+            $.ajax({
+                url: ' https://localhost:44386/LayLienHe/' + id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (res) {
+                    alert("Lỗi mã");
+                },
+                success: function (res) {
+                    $("#txtThietBi").val(res.id),
+                        $("#txtTen").val(res.name),
+                        $("#txtEmail").val(res.email),
+                        $("#txtDienThoai").val(res.phone),
+                        $("#txtDiaChi").val(res.address),
+                        $("#txtCmt").val(res.comment)
+                },
+                fail: function (response) { }
+            })
+        }
+        function check() {
+            var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+            var mobile = $('#txtPhone').val();
+
+            if ($("input[name='MaThietBi1']").val() == '') {
+                alert("Vui lòng nhập mã ");
+            } else if ($("input[name='Ten1']").val() == '') {
+                alert("vui lòng nhập tên ");
+            } else if ($("input[name='Email1']").val() == '') {
+                alert("vui lòng nhập email");
+            } else if (mobile == '') {
+                alert("vui lòng nhập sdt");
+            } else if (vnf_regex.test(mobile) == false) {
+                alert('Số điện thoại của bạn không đúng định dạng!');
+            } else if ($("input[name='DiaChi1']").val() == '') {
+                alert("vui lòng nhập Mật Khẩu");
+            } else {
+                AddContact();
+            }
+        }
+        function GetAll() {
+            $.ajax({
+                url: ' https://localhost:44386/LayLienHe/',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        let STT = i + 1;
+                        table = table + '<tr>'
+                        table = table + '<td>' + STT + '</td>';
+                        table = table + '<td>' + reponse[i].id + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].name + '</td>';
+                        table = table + '<td style="max-width : 150px">' + reponse[i].email + '</td>';
+                        table = table + '<td style="max-width : 150px">' + reponse[i].phone + '</td>';
+                        table = table + '<td style="max-width : 150px">' + reponse[i].address + '</td>';
+                        table = table + '<td style="max-width : 150px">' + reponse[i].comment + '</td>';
+                        table = table + '<td style="max-width : 150px" > <button type="button" class="btn btn-danger" onclick="HienThiSua(),LaytheomaTB(\'' + reponse[i].id + '\')">Sửa</button> <button type="button" class="btn btn-danger" onclick="XoaContact(\'' + reponse[i].id + '\')">Xóa</button></td>';
+                        table = table + '<tr>'
+
+                        document.getElementById('data').innerHTML = table;
+                    }
+                },
+                fail: function (response) { }
+            })
+        }
+        function AddContact() {
+            var url = 'https://localhost:44386/api/Default/?id=' +
+                $("input[name='MaThietBi1']").val() + '&name=' + $("input[name='Ten1']").val() +
+                '&email=' + $("input[name='Email1']").val() + '&phone=' + $("input[name='Phone1']").val() + '&address=' + $("input[name='DiaChi1']").val()
+                + '&comment=' + $("input[name='Cmt1']").val();
+            $.ajax({
+                url: url,
+                method: 'Post',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Thêm mới không thành công");
+                },
+                success: function (reponse) {
+                    alert("Thêm mới thành công  ");
+                    window.location.href = '@Url.Action("Contact", "Question_State_Color_Contact")';
+                }
+            });
+        }
+        function SuaContact() {
+            var url = 'https://localhost:44386/api/Default/?id=' +
+                $("input[name='MaThietBi']").val() + '&name=' + $("input[name='Ten']").val() +
+                '&email=' + $("input[name='Email']").val() + '&phone=' + $("input[name='DienThoai']").val() + '&address=' + $("input[name='DiaChi']").val()
+                + '&comment=' + $("input[name='Cmt']").val();
+            $.ajax({
+                url: url,
+                method: 'PUT',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Sửa không thành công  ");
+                },
+                success: function (reponse) {
+                    alert("Sửa thành công  ");
+                    window.location.href = '@Url.Action("Contact", "Question_State_Color_Contact")';
+                }
+            });
+        }
+        function HienThiSua() {
+            document.getElementById("Edit").style.display = 'inline';
+            document.getElementById("Tim").style.display = 'none';
+            document.getElementById("Add").style.display = 'none';
+        }
+        function HienThiAdd() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'none';
+            document.getElementById("Add").style.display = 'inline';
+        }
+        function HienThi() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'inline';
+            document.getElementById("Add").style.display = 'none';
+        }
+        function XoaContact(id) {
+            var url = 'https://localhost:44386/XoaLienHe/' + id
+            $.ajax({
+                url: url,
+                method: 'DELETE',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Không");
+                },
+                success: function (reponse) {
+                    let choice = confirm("Bạn có muốn xóa không");
+                    if (choice == true) {
+                        alert("Xóa thành công");
+                         window.location.href = '@Url.Action("Contact", "Question_State_Color_Contact")';
+                    }
+                    else {
+
+                    }
+
+                }
+            });
+        }
+    </script>
+}
+<div id="Tim" class="container">
+    <div class="container" style="width:100%;">
+        <h1 style="text-align:center">Bảng Liên Hệ</h1>
+        <button class="btn btn-info" style="float: left; margin-bottom: 20px;" onclick="HienThiAdd();">Thêm Liên Hệ</button></a>
+        <br>
+        <table class="table table-bordered" style="width:100%;">
+
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Comment</th>
+                    <th>Tùy Chọn</th>
+                </tr>
+            </thead>
+            <tbody id="data">
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container" id="Edit" style="display:none">
+    <table style="border:none">
+        <tbody>
+            <tr>
+                <td>ID: </td>
+                <td>
+                    <input id="txtThietBi" type="text" name="MaThietBi" style="margin-bottom: 10px; border-radius: 2px; width: 280px" readonly/>
+                </td>
+            </tr>
+            <tr>
+                <td>Tên: </td>
+                <td>
+                    <input id="txtTen" type="text" name="Ten" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Email: </td>
+                <td>
+                    <input id="txtEmail" type="text" name="Email" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Điện thoại: </td>
+                <td>
+                    <input id="txtDienThoai" type="text" name="DienThoai" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Địa chỉ: </td>
+                <td>
+                    <input id="txtDiaChi" type="text" name="DiaChi" class="form-control" style="margin-bottom: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Comment: </td>
+                <td>
+                    <input id="txtCmt" type="text" name="Cmt" class="form-control" style="margin-bottom: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td style="display: inline-flex">
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px; margin-right: 10px" onclick="HienThi()">Quay lại</button>
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px;"
+                            onclick="SuaContact();">
+                        Cập nhật
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container" id="Add" style="display:none">
+    <table style="border:none">
+        <tbody>
+            <tr>
+                <td>ID: </td>
+                <td>
+                    <input id="txtThietBi" type="text" name="MaThietBi1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Tên: </td>
+                <td>
+                    <input id="txtTen" type="text" name="Ten1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Email: </td>
+                <td>
+                    <input id="txtEmail" type="text" name="Email1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Điện thoại: </td>
+                <td>
+                    <input id="txtPhone" type="text" name="Phone1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Địa chỉ: </td>
+                <td>
+                    <input id="txtDiaChi" type="text" name="DiaChi1" class="form-control" style="margin-bottom: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td>Comment: </td>
+                <td>
+                    <input id="txtCmt" type="text" name="Cmt1" class="form-control" style="margin-bottom: 10px;">
+                </td>
+            </tr>
+            <tr>
+                <td style="display: inline-flex">
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px; margin-right: 10px" onclick="HienThi()">Quay lại</button>
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px;"
+                            onclick="check();">
+                        Thêm mới
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

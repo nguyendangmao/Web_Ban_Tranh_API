@@ -1,0 +1,256 @@
+﻿@model BTL_TTCMWeb.Models.tbl_product
+
+@{ ViewBag.Title = "ProductDetail";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+@*Chi tiết sản phẩm*@
+<input type="hidden" value="@Model.product_id" id="productId" />
+<input type="hidden" id="productColor" />
+<div class="product" style="padding-top: 0px">
+    <div class="container">
+        <div class="product-price1">
+            <div class="top-sing" style="margin-bottom:50px">
+                <div class="col-md-7 single-top">
+                    <div class="flexslider">
+                        <ul class="slides">
+                            <li data-thumb="@Model.product_img">
+                                <div class="thumb-image" style="margin-bottom:40px"> <img src="@Model.product_img" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                            </li>
+                            <li class="para">@Model.product_description</li>
+                        </ul>
+                    </div>
+                    <script src="~/Scripts/imagezoom.js"></script>
+                </div>
+                <div class="col-md-5 single-top-in simpleCart_shelfItem">
+                    <div class="single-para" style="font-size:20px;">
+                        <div class="form-group">
+                            <div class="col-md-10" style="text-align:center; font-weight:bold; padding-bottom: 20px">
+                                <h1><b>@Model.product_name</b></h1>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" style="margin:0.5em 0;">Giá sản phẩm : </label>
+                            <div class="col-md-8" style="padding-left:0px">
+                                <div class="col-md-3"><span class="item_price" id="priceProduct" style="color:#EC7A5C; font-weight:bold; margin:0.5em 0;"></span></div>
+                                <div class="col-md-3"><span id="priceProductBeforeSale" style="font-weight:bold; margin:0.5em 0; text-decoration:line-through; display:block"></span></div>
+                                <div class="col-md-3"><span id="discount" style="color:red;font-weight:bold; margin:0.5em 0; display:block"></span></div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" style="margin:0.5em 0;">Số lượng hàng còn : </label>
+                            <div class="col-md-6">
+                                <div id="amountProduct" style="margin:0.5em 0;"></div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" style="margin:0.5em 0;">Màu sắc : </label>
+                            <div class="col-md-6">
+                                @if (Model.tbl_productColor.Count > 0)
+                                {
+                                    <select class="form-control" onchange="changeColor()" id="cbbColor" style="margin:0.5em 0; width:200px;">
+                                        @foreach (var item in Model.tbl_productColor.Select(x => x.tbl_color).Distinct())
+                                        {
+                                            <option value="@item.color_id">@item.color_name</option>
+}
+                                    </select>}
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" style="margin:0.5em 0;">Kích thước : </label>
+                            <div class="col-md-6">
+                                @if (Model.tbl_productColor.Count > 0)
+                                {
+                                    <div id="ViewCbbSize" style="margin:0.5em 0; width:200px; display:block">@Html.Action("cbbSize", "User", new { productId = Model.product_id, colorId = Model.tbl_productColor.Select(x => x.tbl_color).Distinct().First().color_id })</div>}
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4" style="margin:0.5em 0;">Nhập số lượng : </label>
+                            <div class="col-md-6">
+                                <input style="margin-top: 10px; margin-bottom: 0px; width: 200px; display: block" type="number" min="1" max="Max(b)" class="item_quantity form-control" value="1" id="quantityCart" />
+                            </div>
+                            @*@using (Html.BeginForm("DanhGiaSanPham", "User", new { @MaThietBi = Model.product_id }))
+                                {
+                                    <div>
+                                        @{
+                                            if (ViewBag.KhongDanhGia != null)
+                                            {
+                                                <p>@ViewBag.KhongDanhGia</p>
+                                            }
+                                            if (ViewBag.SoDanhGia != null)
+                                            {
+                                                <p>@ViewBag.SoDanhGia </p>
+                                            }
+
+                                        }
+                                    </div>
+                                    <div>
+                                        Đánh giá @Html.TextBox("DanhGia", 5, new { type = "number", max = 5, min = 1 })
+                                        <a href="@Url.Action("ProductDetail","User", new { id = Model.product_id })"><input type="submit" value="Xác nhận đánh giá" class="btn btn-danger" /></a>
+
+
+                                    </div>
+                                }*@
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <div id="abc">
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+
+
+
+    <h3 style="text-align:center;margin-top:100px">Sản phẩm đề xuất</h3>
+    @*5 sản phẩm ngẫu nhiên bên dưới*@
+    @*product sugget*@
+    <div class="bottom-prdt product-wrap">
+        <div class="btm-grid-sec row">
+
+            @{ var listSuggestProduct = Session["listSuggestProduct"] as List<BTL_TTCMWeb.Models.tbl_product>;
+
+                foreach (var item in listSuggestProduct)
+                {
+                    <div class="col-md-2 btm-grid feature-grid">
+                        <a href="@Url.Action("ProductDetail","User", new { id=item.product_id })">
+                            <img src="@item.product_img" alt="" />
+                            <div class="arrival-info" style="text-align:center">
+                                <p>@item.product_code</p>
+                                <h4>@item.product_name</h4>
+                                <p>@item.product_sub_info</p>
+                            </div>
+                            <div class="viw" style="left:18% !important">
+                                <a href="@Url.Action("ProductDetail","User", new { id = item.product_id })"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Xem chi tiết</a>
+                            </div>
+                        </a>
+                    </div> } }
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<script>
+    function Load() {
+        $("#total").css("color", "red");
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("AddToCart", "User")',
+            data: { productColorId: $("#productColor").val(), quantity: $("#quantityCart").val() },
+            success: function (result) {
+                window.location.href = '@Url.Action("checkout", "User")';
+            }
+        });
+    }
+
+    //Khi click vào thêm vào giỏ hàng
+    function addToCart() {
+        $("#total").css("color", "red");
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("AddToCart", "User")',
+            data: { productColorId: $("#productColor").val(), quantity: $("#quantityCart").val() }
+        });
+    }
+    //Tìm sản phẩm khi thay đổi màu
+    function changeColor() {
+        var productId = $("#productId").val();
+        var colorId = $("#cbbColor").val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("cbbSize", "User")',
+            data: {productId: productId, colorId: colorId},
+            success: function (result) {
+                document.getElementById("ViewCbbSize").innerHTML = result;
+                var id = $("#productId").val();
+                var size = $("#cbbSize").val();
+                var color = $("#cbbColor").val();
+                let table = '';
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("getProductColor", "User")',
+                    data: {productId: id, colorId: color,size: size},
+                    success: function (result) {
+                        if (result.amount == 0) {
+                            result.amount = "Hết hàng"
+                            table = table + '<h4 style="margin-top: 50px;padding-left: 15px; color:red">Vui lòng liên hệ 0978594932 để đặt trước</h4>';
+                        } else {
+                            table = table + '<a href="#" onclick="addToCart()" class="add-cart item_add" style="margin-top: 50px">THÊM VÀO GIỎ HÀNG</a>';
+                            table = table + '<a href="#" onclick="Load()" class="add-cart item_add" style="margin-top: 50px">BÁN HÀNG</a> ';
+                        }
+                        $("#priceProduct").text(result.price);
+                        $("#amountProduct").text(result.amount);
+                        $("#productColor").val(result.productColorId);
+                        $("#discount").text(result.discount);
+                        $("#priceProductBeforeSale").text(result.priceBefore);
+                        document.getElementById('abc').innerHTML = table;
+                    }
+                });
+            }
+        });
+    }
+    
+    //Tìm sản phẩm khi thay đổi kích thước
+    function changeSize() {
+        var id = $("#productId").val();
+        var size = $("#cbbSize").val();
+        var color = $("#cbbColor").val();
+        let table = '';
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("getProductColor", "User")',
+            data: {productId: id, colorId: color,size: size},
+            success: function (result) {
+                if (result.amount == 0) {
+                    result.amount = "Hết hàng"
+                    table = table + '<h4 style="margin-top: 50px;padding-left: 15px; color:red">Vui lòng liên hệ 0978594932 để đặt trước</h4>';
+                } else {
+                    table = table + '<a href="#" onclick="addToCart()" class="add-cart item_add" style="margin-top: 50px">THÊM VÀO GIỎ HÀNG</a>';
+                    table = table + '<a href="#" onclick="Load()" class="add-cart item_add" style="margin-top: 50px">BÁN HÀNG</a> ';
+                }
+                $("#priceProduct").text(result.price);
+                $("#amountProduct").text(result.amount);
+                $("#productColor").val(result.productColorId);
+                $("#discount").text(result.discount);
+                $("#priceProductBeforeSale").text(result.priceBefore);
+            }
+        });
+    }
+    $("#quantityCart").change(function () {
+        document.getElementById('quantityCart').max = parseInt($("#amountProduct").text());
+    });
+    //Khi load chi tiết sản phẩm
+    $(window).load(function () { /*code here*/
+        var id = $("#productId").val();
+        var size = $("#cbbSize").val();
+        var color = $("#cbbColor").val();
+        var table = '';
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("getProductColor", "User")',
+            data: {productId: id, colorId: color,size: size},
+            success: function (result) {
+                if (result.amount == 0) {
+                    result.amount = "Hết hàng"
+                    table = table + '<h4 style="margin-top: 50px;padding-left: 15px; color:red">Vui lòng liên hệ 0978594932 để đặt trước</h4>';
+                } else {
+                    table = table + '<a href="#" onclick="addToCart()" class="add-cart item_add" style="margin-top: 50px">THÊM VÀO GIỎ HÀNG</a>'; 
+                    table = table + '<a href="#" onclick="Load()" class="add-cart item_add" style="margin-top: 50px">MUA NGAY</a> ';
+                }
+                $("#priceProduct").text(result.price);
+                $("#amountProduct").text(result.amount);
+                $("#productColor").val(result.productColorId);
+                $("#discount").text(result.discount);
+                $("#priceProductBeforeSale").text(result.priceBefore);
+                document.getElementById('abc').innerHTML = table;
+            }
+        });
+    })
+</script>

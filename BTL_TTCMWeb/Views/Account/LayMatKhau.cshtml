@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "LayMatKhau";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LaytheomaTB();
+        });
+        function LaytheomaTB() {
+            $.ajax({
+                url: ' https://localhost:44386/LayCauHoi/',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi mã");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        table = table + '<hr>'
+                        table = table + '<option value="' + reponse[i].question_id + '">' + reponse[i].question + '</option>'
+                    }
+                    document.getElementById('question').innerHTML = table;
+                },
+                fail: function (response) { }
+            })
+        }
+        function checkTK() {
+            $.ajax({
+                url: ' https://localhost:44386/Ha/' + $("input[name='TaiKhoan']").val(),
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Không tồn tại tài khoản đó");
+                },
+                success: function (reponse) {
+                        if (reponse.question_id == $("select[name='question']").val() && reponse.answer == $("input[name='Traloi']").val()) {
+                            UpdateMK(); 
+                        }
+                        else {
+                            alert("Câu trả lời hoặc câu hỏi sai!");
+                        }
+                },
+                fail: function (response) { }
+            })
+        }
+        function UpdateMK() {
+            $.ajax({
+                url: ' https://localhost:44386/api/LayMatKhau/?user_name=' + $("input[name='TaiKhoan']").val() + + '&user_password=' + $("input[name='password_new']").val(),
+                method: 'PUT',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi mã");
+                },
+                success: function (reponse) {
+                    alert("Lấy lại thành công ");
+                    window.location.href ='@Url.Action("Login", "Account")'
+                },
+                fail: function (response) { }
+            })
+        }
+        function vaild() {
+            if (document.getElementById("TaiKhoan").value == "") {
+                alert("Vui lòng cho biết tài khoản !");
+            }
+            else if (document.getElementById("Traloi").value == "") {
+                alert("Vui lòng nhập câu trả lời!");
+            }
+            else if (document.getElementById("password_new").value == "") {
+                alert("Vui lòng nhập mật khẩu mới!");
+            }
+            else if (document.getElementById("confim_password").value == "") {
+                alert("Vui lòng nhập mật khẩu mới!");
+            }
+            else if (document.getElementById("confim_password").value != document.getElementById("password_new").value) {
+                alert("Xác nhận mật khẩu phải giống mật khẩu mới!");
+            }
+            else {
+                checkTK();
+            }
+        }
+    </script>
+}
+<div class="container">
+            <div class="form-horizontal">
+                <h2 style="text-align:center; font-weight:bold; padding-top: 20px">Lấy lại mật khẩu</h2>
+                <hr />
+                <div class="form-group">
+                    <label class="control-label col-md-2">Tài khoản : </label>
+                    <div class="col-md-4">
+                        <input type="text" id="TaiKhoan" name="TaiKhoan" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Câu hỏi bảo mật : </label>
+                    <div class="col-md-4">
+                        <select  id="question" name="question" style="width:362px;height:36px"></select>
+                        @*<input type="text" id="question" name="question" class="form-control" />*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Câu trả lời : </label>
+                    <div class="col-md-4">
+                        <input type="text" id="Traloi" name="Traloi" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Mật khẩu Mới : </label>
+                    <div class="col-md-4">
+                        <input type="password" id="password_new" name="password_new" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Xác nhận mật khẩu mới : </label>
+                    <div class="col-md-4">
+                        <input type="password" id="confim_password" name="confim_password" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Xác nhận" class="btn btn-info" onclick="vaild()" />
+                    </div>
+                </div>
+            </div>
+</div>
+

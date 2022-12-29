@@ -1,0 +1,156 @@
+﻿@model BTL_TTCMWeb.Models.tbl_cart
+@{ ViewBag.Title = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+<!-- check out -->
+@if (Model != null)
+{
+<div class="container">
+    <div class="check-sec">
+        <div class="col-md-3 cart-total">
+            <a class="continue" href="@Url.Action("Index", "User")">Tiếp tục mua hàng</a>
+            <ul class="total_price">
+                <li class="last_price"> <h4>Tổng tiền </h4></li>
+                <li class="last_price" id="TotalPrice"><span>@Model.total_price</span></li>
+            </ul>
+            <div class="clearfix"></div>
+            <label>Ghi chú khi giao hàng</label>
+            <textarea id="note" cols="30" rows="5"></textarea>
+            <a class="order" href="javascript:;" onclick="Payment()">Đặt hàng</a>
+        </div>
+        <div class="col-md-9 cart-items">
+            <h1>Chi tiết giỏ hàng</h1>
+
+            @foreach (var item in Model.tbl_cartDetail)
+            {
+<div class="cart-header" id="@item.cart_detail_id">
+    <div class="close1" onclick="DelteItem(@item.cart_detail_id)"> </div>
+    <div class="cart-sec simpleCart_shelfItem">
+        <div class="cart-item cyc">
+            <img src="@item.tbl_productColor.tbl_product.product_img" class="img-responsive" alt="" />
+        </div>
+        <div class="cart-item-info">
+            <h3><a href="@Url.Action("ProductDetail","User", new { id=item.tbl_productColor.product_id })">@item.tbl_productColor.tbl_product.product_name</a><span>Code: @item.tbl_productColor.tbl_product.product_code</span></h3>
+            <ul class="qty">
+                <li><p>Size : @item.tbl_productColor.size</p></li>
+                <li>
+                    <p>Số lượng : @item.quantity</p>
+                    @*<input data-val="true" data-val-number="The field Int32 must be a number." id="Soluong" max="" min="1" name="Soluong" type="number" value="@item.quantity"><button type="submit">Cập nhật</button>*@
+                </li>
+                <li><p>Giá tiền : @(item.tbl_productColor.product_sale ?? item.tbl_productColor.product_price)</p></li>
+            </ul>
+            <div class="delivery">
+                <p>Số tiền : @(item.quantity * (item.tbl_productColor.product_sale ?? item.tbl_productColor.product_price))</p>
+                <span>@item.tbl_productColor.tbl_product.product_delivery</span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+</div>                }
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div> <!-- //check out --> }
+                            else
+                            {
+                <div class="container">
+                    <div class="check-sec">
+                        <div class="col-md-3 cart-total">
+                            <a class="continue" href="@Url.Action("Index", "User")">Tiếp tục mua hàng</a>
+                            <ul class="total_price">
+                                <li class="last_price"> <h4>Tổng tiền </h4></li>
+                                <li class="last_price" id="TotalPrice"><span>0</span></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                            <label>Ghi chú khi giao hàng</label>
+                            <textarea id="note" cols="30" rows="5"></textarea>
+                            <a class="order" href="javascript:;" onclick="Payment()">Đặt hàng</a>
+                        </div>
+                        <div class="col-md-9 cart-items">
+                            <h1>Chi tiết giỏ hàng</h1>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>}
+<div class="col-md-5 single-top-in simpleCart_shelfItem hidden">
+    <div class="single-para ">
+        <h5 class="item_price" id="priceProduct"></h5>
+        <input type="number" min="1" class="item_quantity form-control" value="1" id="quantityCart" />
+        <a href="#" class="add-cart item_add">ADD TO CART</a>
+    </div>
+</div>
+@*product sugget*@
+<div class="container">
+    <div class="bottom-prdt product-wrap">
+        <div class="btm-grid-sec row">
+            @{ var listSuggestProduct = Session["listSuggestProduct"] as List<BTL_TTCMWeb.Models.tbl_product>;
+
+                            foreach (var item in listSuggestProduct)
+                            {
+                <div class="col-md-2 btm-grid feature-grid">
+                    <a href="@Url.Action("ProductDetail","User", new { id=item.product_id })">
+                        <img src="@item.product_img" alt="" />
+                        <div class="arrival-info">
+                            <p>@item.product_code</p>
+                            <h4>@item.product_name</h4>
+                            <p>@item.product_sub_info</p>
+                        </div>
+                        <div class="viw">
+                            <a href="@Url.Action("ProductDetail","User", new { id = item.product_id })"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Xem chi tiết</a>
+                        </div>
+                    </a>
+                </div> } }
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<script>
+    //Khi thanh toán thành công tự xóa sản phẩm đó khỏi giỏ hàng
+    function DelteItem(id) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("DeleteToCart", "User")',
+            data: { productColorId: id },
+            success: function (result) {
+                $("#TotalPrice").text(result.price);
+                $("#priceProduct").text(result.priceRemove);
+                $("#quantityCart").val(result.quantityRemove);
+                $(".add-cart").click();
+                $("#" + id).fadeOut('slow', function (c) {
+                    $("#" + id).remove();
+                });
+            }
+        });
+    }
+    //Khi ấn nút thanh toán
+    function Payment() {
+        var date = new Date();
+        var month;
+        month = date.getMonth() + 1;
+        var day = month.toString() + '/' + date.getDate() + '/' + date.getFullYear() + ' ' + date.getHours() + ':' +
+            date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("CheckPayment", "User")',
+            data: {
+                note: $("#note").val()},
+            success: function (result) {
+                if (result.message == "success") {
+                    localStorage.clear();
+                    alert("Thanh toán thành công!");
+                    let choice = confirm("Tiếp tục mua hàng ?");
+                    if (choice == true) {
+                         window.location.href = '@Url.Action("Index", "User")';
+                    }
+                    else {
+
+                    }
+                }
+                else {
+                    alert(result.message);
+                }
+            }
+        });
+    }
+</script>

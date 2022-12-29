@@ -1,0 +1,155 @@
+﻿@{ ViewBag.Title = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+<!---->
+<div class="slider" style="background: rgba(0,0,0,.3);">
+    <div class="callbacks_container">
+        <ul class="rslides" id="slider">
+            <li>
+                <div class="banner1">
+                    <div class="banner-info">
+                        <h3>Tranh ngũ hành sơn</h3>
+                        <p>Hiện đại tối giản,nhẹ nhàng,mang lại cảm giác ấm cúng và phối cảnh hài hòa cho ngôi nhà của bạn.</p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="banner2">
+                    <div class="banner-info">
+                        <h3>Tranh vui vẻ</h3>
+                        <p>
+                            Sang trọng, nhẹ nhàng và hiện đại không bay màu, dễ lau chùi kết hợp với đinh 3 chân,
+                            rất dễ dàng cho việc treo trên tường mà không cần khoan vì vậy những bộ tranh in trang trí hiện đại là sự lựa chọn hoàn hảo cho căn hộ của bạn.
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="banner3">
+                    <div class="banner-info">
+                        <h3>Tranh ngôi nhà thân yêu</h3>
+                        <p>Thiết kế phù hợp với từng không gian gia đình nên ít có sự trùng lặp ở mỗi không gian khác nhau,bộ tranh mang đến một sự tươi mới và tăng thêm sự cân đối cho ngôi nhà của bạn.</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!---->
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/product-list.css" rel="stylesheet" />
+<div class="container col-md-11">
+    <div class="border-wrap clearfix" style="padding-top: 30px">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="clearfix">
+                    <h3 style="padding-left:18px; padding-bottom: 18px; font-weight:bold">Lọc Theo Tên</h3>
+                    <div class="search-form-wrap clearfix col-md-12">
+                        <div class="form-inline" style="padding-left:5px">
+                            <input id="search-product" class="form-control" type="text" placeholder="Search">
+                            <button id="btn-search" class="btn btn-default" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <div class="borderFilter" style="padding-top:10px"></div>
+
+                    </div>
+                    <div class="info-fillter grey-bg clearfix">
+                        <div class="clearfix">
+                            <h3 style="font-weight:bold">Danh mục</h3>
+                            <div class="row">
+                                <div id="reset-div" class="col-sm-6" style="background: antiquewhite; border-radius: 5px; display: flex; float: right; width: initial;">
+                                    <a id="reset-btn" href="javascript:;">Xóa Tìm Kiếm</a>
+                                    <span id="close-sp">
+                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                             width="22px" height="22px"
+                                             viewBox="0 0 224 224"
+                                             style="display: block; fill: #000000; margin-left: 5px">
+                                            <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                                <path d="M0,224v-224h224v224z" fill="none"></path>
+                                                <g fill="#cccccc">
+                                                    <g id="surface1">
+                                                        <path d="M67.76,55.02l-12.74,12.74l44.52,44.24l-44.52,44.24l12.74,12.74l44.52,-44.24l44.52,44.24l12.6,-12.74l-44.38,-44.24l44.38,-44.24l-12.6,-12.74l-44.52,44.24z"></path>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        @*Lấy ra tất cả danh mục của sản phẩm*@
+
+                        @{ var listCategory = Session["listCategory"] as IQueryable<BTL_TTCMWeb.Models.tbl_category>; }
+                        @foreach (var item in listCategory)
+                        {
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> <span class="geekmark">@item.category_name</span>
+                                </label>
+                            </div>}
+                        <div class="borderFilter"></div>
+                        <div class="clearfix">
+                            <h3 class="" style="font-weight:bold; padding-top:20px; padding-bottom: 10px">Màu sắc</h3>
+                        </div>
+
+                        @*Lấy ra tất cả màu của sản phẩm*@
+
+                        @{ var listColor = Session["listColor"] as IQueryable<BTL_TTCMWeb.Models.tbl_color>; }
+                        @foreach (var item in listColor)
+                        {
+                            <div class="checkboxColor">
+                                <label>
+                                    <input type="checkbox"> <span class="geekmark">@item.color_name</span>
+                                </label>
+                            </div>}
+                        <div class="borderFilter"></div>
+                        <div class="clearfix">
+                            <h3 class="" style="font-weight:bold; padding-top:20px; padding-bottom: 10px">Kích thước</h3>
+                        </div>
+
+                        @*Lấy ra tất cả kích thước của sản phẩm*@
+
+                        @{ var listSize = Session["listSize"] as IQueryable<string>; }
+                        @foreach (var item in listSize)
+                        {
+                            <div class="checkboxSize">
+                                <label>
+                                    <input type="checkbox"> <span class="geekmark">@item</span>
+                                </label>
+                            </div>}
+                        <div class="borderFilter"></div>
+                        <p>
+                            <h3 style="padding-top:20px; padding-bottom:10px; font-weight:bold" for="amount">Khoảng giá</h3>
+                            <input type="text" id="amount" readonly style="background: #00000001; border: 0; color: #f6931f; font-weight: bold; margin-bottom: 10px; text-align: center; width: 100%;">
+                        </p>
+
+                        <div id="slider-range"></div>
+                    </div>
+                </div>
+            </div>
+            @*Lấy ra tất cả sản phẩm kết hợp phân trang*@
+            <div class="col-sm-9">
+                <h2 style="text-align: center; font-weight:bold">Sản Phẩm</h2>
+                <div id="data-result">
+                    <div class="text-center clearfix">
+                        @Html.Action("GetDataProductPartial", "User")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="ClearCookieCart" value="@((bool?)TempData["ClearCookieCart"])" />
+<script>
+    $(document).ready(function () {
+        var clearCookie = $("#ClearCookieCart").val();
+        @{
+            ViewData["ClearCookieCart"] = false;
+        }
+        if (clearCookie != "") {
+            $(".simpleCart_empty").click();
+        }
+    });
+</script>

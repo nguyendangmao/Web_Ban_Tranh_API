@@ -1,0 +1,78 @@
+﻿@model BTL_TTCMWeb.Models.tbl_contact
+@{ ViewBag.Title = "Liên hệ";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<div class="container">
+    <ol class="breadcrumb">
+        <li><a href="index.html">Home</a></li>
+        <li class="active">Liên Hệ</li>
+    </ol>
+    <!--start contact-->
+    <h3>Liên Hệ Chúng Tôi</h3>
+    <div class="section group">
+        <div class="col-md-6 span_1_of_3">
+            <div class="contact_info">
+                <h4>Tìm chúng tôi tại đây</h4>
+                <div class="map">
+                    <iframe src="https://maps.google.co.in/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Lighthouse+Point,+FL,+United+States&amp;aq=4&amp;oq=light&amp;sll=26.275636,-80.087265&amp;sspn=0.04941,0.104628&amp;ie=UTF8&amp;hq=&amp;hnear=Lighthouse+Point,+Broward,+Florida,+United+States&amp;t=m&amp;z=14&amp;ll=26.275636,-80.087265&amp;output=embed"></iframe>
+                </div>
+            </div>
+            <div class="company_address">
+                <h4>Thông tin cửa hàng :</h4>
+                <p>Địa chỉ: @Model.address</p>
+                <p>Số điện thoại: @Model.phone</p>
+                <p>Email: <a href="mailto:@Model.email">@Model.email</a></p>
+                <p>Giờ mở cửa: @Model.time</p>
+            </div>
+        </div>
+        <div class="col-md-6 span_2_of_3">
+            <div class="contact-form" >
+                <form method="POST" action="https://formspree.io/f/xnqwokyg" onsubmit="return valid()"  >
+                    <div>
+                        <span><label>Tên Khách Hàng</label></span>
+                        <span><input name="userName" type="text" class="textbox" id="userName"></span>
+                    </div>
+                    <div>
+                        <span><label>Hòm Thư E-MAIL</label></span>
+                        <span><input name="userEmail" type="text" class="textbox" id="userEmail"></span>
+                    </div>
+                    <div>
+                        <span><label>Số Điện Thoại</label></span>
+                        <span><input name="userPhone" type="text" class="textbox" id="userPhone"></span>
+                    </div>
+                    <div>
+                        <span><label>Nội Dung</label></span>
+                        <span><textarea name="userMsg" id="userMsg"> </textarea></span>
+                    </div>
+                    <div>
+                        <span><input type="submit" class="mybutton" value="Gửi"></span>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function valid() {
+        if (document.getElementById("userName").value == "") {
+            alert("Vui lòng cho biết tên !");
+            return false;
+        }
+        if (document.getElementById("userPhone").value == "") {
+            alert("Vui lòng nhập số điện thoại chính xác để chúng tôi liên hệ lại với quý khách !");
+            return false;
+        }
+        if (document.getElementById("userEmail").value == "") {
+            alert("Vui lòng nhập email!");
+            return false;
+        }
+        if (document.getElementById("userMsg").value == "") {
+            alert("Vui lòng nhập nội dung phản hồi !");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+

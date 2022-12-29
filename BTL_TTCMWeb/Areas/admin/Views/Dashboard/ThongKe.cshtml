@@ -1,0 +1,294 @@
+﻿
+@{
+    ViewBag.Title = "ThongKe";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetTK(2022);
+        });
+        //Hàm lấy ra toàn bộ danh sách Khách Hàng. Dùng $.ajax() thực hiện method HTTP GET
+        function GetTK(year) {
+            console.log(year);
+            $.ajax({
+                url: 'https://localhost:44386/Abc/' + year,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '<tr>';
+                    var j = 0;
+                    if (len == 0) {
+                        Hien();
+                    } else {
+                        Hien1();
+                        for (var i = 0; i < 12; ++i) {
+                            if (len > 0) {
+                                if (reponse[j].Thang == i + 1) {
+                                    table = table +
+                                        '<td>' + reponse[j].Thang + '</td>' +
+                                        '<td>' + reponse[j].TongHD + '</td>' +
+                                        '<td>' + reponse[j].SoSP + '</td>' +
+                                        '<td>' + reponse[j].TongTien + '</td></tr>';
+                                    if (j < len - 1) {
+                                        j = j + 1;
+                                    }
+                                }
+                                else {
+                                    table = table +
+                                        '<td>' + (i + 1) + '</td>' +
+                                        '<td>0</td>' +
+                                        '<td>0</td>' +
+                                        '<td>0</td></tr>';
+                                }
+                            }
+                            else {
+                                table = table +
+                                    '<td>' + (i + 1) + '</td>' +
+                                    '<td>0</td>' +
+                                    '<td>0</td>' +
+                                    '<td>0</td></tr>';
+                            }
+                        }
+                        document.getElementById('thongke').innerHTML = table;
+                    }
+                },
+                fail: function (response) {
+                }
+            });
+        }
+        function Hien() {
+            document.getElementById("0").style.display = 'inline';
+            document.getElementById("1").style.display = 'none';
+            document.getElementById("2").style.display = 'none';
+        }
+        function Hien1() {
+            document.getElementById("0").style.display = 'none';
+            document.getElementById("1").style.display = 'inline';
+            document.getElementById("2").style.display = 'none';
+        }
+        $("#year").change(function () {
+            GetTK($(this).val());
+            GetSPMax($(this).val(), $("#month").val());
+        });
+        $("#month").change(function () {
+            GetSPMax($("#year").val(), $(this).val());
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetSPMax(2022, 1);
+        });
+        //Hàm lấy ra toàn bộ danh sách Khách Hàng. Dùng $.ajax() thực hiện method HTTP GET
+        function GetSPMax(year, month) {
+            $.ajax({
+                url: 'https://localhost:44386/api/thongKe?year=' + year + '&month=' + month,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '<tr>';
+                    if (len == 0) {
+                        document.getElementById("3").style.display = 'inline';
+                        document.getElementById("2").style.display = 'none';
+                    } else {
+                        document.getElementById("3").style.display = 'none';
+                        document.getElementById("2").style.display = 'inline';
+                        for (var i = 0; i < len; ++i) {
+                            table = table + '<tr>'
+                            table = table + '<td style="max-width:150px">' + reponse[i].product_name + '</td>';
+                            table = table + '<td>' + reponse[i].size + '</td>';
+                            table = table + '<td>' + reponse[i].color_name + '</td>';
+                            table = table + '<td> <div ><img src="' + reponse[i].product_img + '" style="width : 38px; height : 38px " /></div> </td>';
+                            table = table + '<td>' + reponse[i].SoSP + '</td>';
+                            table = table + '<td>' + reponse[i].TongTien + '</td>';
+                            table = table + '<tr>'
+                        }
+                        document.getElementById('spMax').innerHTML = table;
+                    }
+                },
+                fail: function (response) {
+                }
+            });
+        }
+        $("#year").change(function () {
+            GetTK($(this).val());
+            GetSPMax($(this).val(), $("#month").val());
+        });
+        $("#month").change(function () {
+            GetSPMax($("#year").val(), $(this).val());
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetChart(2022);
+        });
+        function GetChart(year) {
+            console.log(year);
+            $.ajax({
+                url: 'https://localhost:44386/Abc/' + year,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                },
+                success: function (reponse) {
+                    var xValues = [];
+                    var yValues = [];
+                    var maxm = 0;
+                    var zValue = [];
+                    var barColors1 = "red";
+                    const len = reponse.length;
+                    let table = '<tr>';
+                    var j = 0;
+                    for (var i = 0; i < 12; ++i) {
+                        if (len > 0) {
+                            if (reponse[j].Thang == i + 1) {
+                                xValues[i] = reponse[j].Thang;
+                                yValues[i] = reponse[j].TongTien
+                                if (yValues[i] > maxm) {
+                                    maxm = yValues[i];
+                                }
+                                if (j < len - 1) {
+                                    j = j + 1;
+                                }
+                            }
+                            else {
+                                xValues[i] = i + 1;
+                                yValues[i] = 0;
+                            }
+                        }
+                        else {
+                            xValues[i] = i + 1;
+                            yValues[i] = 0;
+                        }
+                    }
+                    new Chart("myChart", {
+                        type: "line",
+                        data: {
+                            labels: xValues,
+                            datasets: [{
+                                fill: false,
+                                lineTension: 0,
+                                backgroundColor: "rgba(0,0,255,1.0)",
+                                borderColor: "rgba(0,0,255,0.1)",
+                                data: yValues
+                            }]
+                        },
+                        options: {
+                            legend: { display: false },
+                            title: {
+                                display: true,
+                                text: "Biểu đồ doanh thu năm " + year
+                            },
+                            scales: {
+                                yAxes: [{ ticks: { min: 0, max: maxm } }],
+                            }
+                        }
+                    });
+
+                },
+                fail: function (response) {
+                }
+            });
+        }
+        $("#year").change(function () {
+            GetChart($(this).val());
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+}
+
+@*Hiển thị hóa đơn bán*@
+<div class="content-wrapper content" style="padding-top:0px" >
+    <!-- Content header -->
+    <div class="content-header" style="padding-top:0px">
+        <div class="container-fluid">
+            <div class="row tittelKH">
+                     <h1 style="text-align:center">Thống Kê</h1>
+                    @*<h5 class="m-0 text-dark">Thống kê</h5>*@
+                <div class="col-sm-3" style="float:right">
+                    Năm:
+                    <select name="cars" id="year" class="cmbNam">
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 style="margin-bottom:30px">Thống Kê theo tháng</h4>
+    <p style="display:none" id="0">Không có thông tin ở năm này</p>
+    <div id="1">
+        <table class="table table-hover" style="text-align:center" >
+            <thead >
+                <tr>
+                    <th style="max-width:150px;text-align:center">Tháng</th>
+                    <th style="text-align:center">Số đơn hàng</th>
+                    <th style="text-align:center">Số sản phẩm</th>
+                    <th style="text-align:center">Số doanh thu</th>
+                </tr>
+            </thead>
+            <tbody id="thongke"></tbody>
+        </table>
+    </div>
+    <div class="row tittelKH" style="margin-top: 50px">
+        <h4>Biểu đồ doanh thu</h4>
+    </div>
+    <canvas id="myChart" style="width:100%; max-width:900px; margin-left: 50px; margin-bottom: 50px;"></canvas>
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row tittelKH">
+                <div class="row tittelKH" style="margin-top: 50px">
+                    <h4>Sản phẩm bán chạy</h4>
+                </div>
+                <div class="col-sm-3" style="float:right">
+                    Tháng:
+                    <select name="cars" id="month" class="cmbNam">
+                        <option value="1"> 1</option>
+                        <option value="2"> 2</option>
+                        <option value="3"> 3</option>
+                        <option value="4"> 4</option>
+                        <option value="5"> 5</option>
+                        <option value="6"> 6</option>
+                        <option value="7"> 7</option>
+                        <option value="8"> 8</option>
+                        <option value="9"> 9</option>
+                        <option value="10"> 10</option>
+                        <option value="11"> 11</option>
+                        <option value="12"> 12</option>
+                    </select>
+                </div>
+            </div>
+            <p style="display:none" id="3">Không có thông tin</p>
+            <div class="card-body table-responsive p-0" id="2">
+                <table class="table table-striped table-valign-middle">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Kích thước</th>
+                            <th>Màu</th>
+                            <th>Ảnh</th>
+                            <th>Số sản phẩm</th>
+                            <th>Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="spMax">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

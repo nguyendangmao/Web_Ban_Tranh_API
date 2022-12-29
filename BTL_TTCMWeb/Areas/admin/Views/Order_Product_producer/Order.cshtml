@@ -1,0 +1,352 @@
+﻿
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Laystate();
+            GetAll();
+        });
+        function LayUser(user_id) {
+            $.ajax({
+                url: 'https://localhost:44386/asd/' + user_id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+
+                },
+                success: function (reponse) {
+                    let table = '';
+                    table = table + '<hr>'
+                    table = table + '<option value="' + reponse.user_id + '">' + reponse.user_name + '</option>'
+                    document.getElementById('User').innerHTML = table;
+                },
+                fail: function (response) { }
+            });
+        }
+        function Laystate() {
+            $.ajax({
+                url: 'https://localhost:44386/laystate',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        table = table + '<hr>'
+                        table = table + '<option value="' + reponse[i].state_id + '">' + reponse[i].state_name + '</option>'
+                    }
+                    document.getElementById('value11').innerHTML = table;
+                },
+                fail: function (response) { }
+            });
+        }
+        function LaytheomaTB(order_id) {
+            $.ajax({
+                url: ' https://localhost:44386/Layorder/' + order_id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (res) {
+                    alert("Lỗi mã");
+                },
+                success: function (res) {
+                    $("#a").val(res.order_id),
+                    $("#c").val(res.order_receiver_note),
+                        $("#d").val(res.order_total_price),
+                        $("#value11").val(res.state_id)
+                },
+                fail: function (response) { }
+            })
+        }
+        function GetAll() {
+            $.ajax({
+                url: ' https://localhost:44386/Layorder/',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        if (reponse[i].order_receiver_note == null) {
+                            reponse[i].order_receiver_note = "Không có yêu cầu gì";
+                        }
+                        let STT = i + 1;
+                        table = table + '<tr>'
+                        table = table + '<td>' + STT + '</td>';
+                        table = table + '<td>' + reponse[i].order_id + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].user_name + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].order_receiver_note + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].order_total_price + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].state_name + '</td>';
+                        if (reponse[i].state_name == "Đã hủy") {
+                            table = table + '<td style="max-width : 150px" > <button type="button" class="btn btn-danger" onclick="XoaCTHD(\'' + reponse[i].order_id + '\'),abc(\'' + reponse[i].order_detail_id  + '\')">Xóa</button> <button type="button" class="btn btn-danger" onclick="HienThi1(),Laytheoarder(\'' + reponse[i].order_id + '\')">Chi Tiết</button></td>';
+                        //        table = table + '<td style="max-width : 200px"><button type="button" class="btn btn-danger" onclick="HienThiSua(),LaytheomaTB(\'' + reponse[i].order_id + '\'),LayUser(\'' + reponse[i].user_id + '\')">Sửa</button></td>';
+                        }
+                        else if (reponse[i].state_name == "Đã giao hàng") {
+                            table = table + '<td style="max-width : 150px" > <button type="button" class="btn btn-danger" onclick="HienThi1(),Laytheoarder(\'' + reponse[i].order_id + '\')">Chi Tiết</button></td>';
+                        }
+                        else {
+                            table = table + '<td style="max-width : 150px" > <button type="button" class="btn btn-danger" onclick="HienThiSua(),LaytheomaTB(\'' + reponse[i].order_id + '\'),LayUser(\'' + reponse[i].user_id + '\')">Sửa</button> <button type="button" class="btn btn-danger" onclick="HienThi1(),Laytheoarder(\'' + reponse[i].order_id + '\')">Chi Tiết</button></td>';
+                        }
+                        table = table + '<tr>'
+
+                        document.getElementById('data').innerHTML = table;
+                    }
+                },
+                fail: function (response) { }
+            })
+        }
+        function SuaOrder() {
+            var url = 'https://localhost:44386/api/Order_product_producer_API/?order_id=' +
+                $("input[name='a']").val() + '&user_id=' + $("select[name='User']").val() +
+                '&order_receiver_note=' + $("input[name='c']").val() + '&order_total_price=' + $("input[name='d']").val() + '&order_state=' + $("select[name='stateEdit1']").val() ;
+            $.ajax({
+                url: url,
+                method: 'Put',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Sửa không thành công  ");
+                },
+                success: function (reponse) {
+                    if ($("select[name='stateEdit1'] option:selected").text()== "Đã hủy") {
+                        let choice = confirm("Bạn có muốn hủy đơn hàng không?");
+                        if (choice == true) {
+                            Capnhatlaisoluong(parseInt($("input[name='a']").val()));
+                            alert("Hủy thành công");
+                            window.location.href = '@Url.Action("Order", "Order_product_producer")';
+                        }
+                    }
+                    else {
+                         alert("Sửa thành công");
+                         window.location.href = '@Url.Action("Order", "Order_product_producer")';
+                    }
+                }
+            });
+        }
+        function abc(order_detail_id) {
+           var url = 'https://localhost:44386/XoaCTHoaDon/' + order_detail_id
+           $.ajax({
+                url: url,
+                method: 'DELETE',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+
+                },
+                success: function (reponse) {
+                    window.location.href = '@Url.Action("Order", "Order_product_producer")';
+
+                }
+            });
+        }
+        function Laytheoarder(order_id) {
+            $.ajax({
+                url: ' https://localhost:44386/ctOrder/' + order_id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi mã");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        let STT = i + 1;
+                        table = table + '<tr>'
+                        table = table + '<td>' + reponse[i].order_id + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].product_name + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].color_name + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].size + '</td>';
+                        table = table + '<td> <div ><img src="' + reponse[i].product_img + '" style="width : 38px; height : 38px " /></div> </td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].quantity + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].price + '</td>';
+                        table = table + '<tr>'
+
+                        document.getElementById('ChiTietHoaDon').innerHTML  = table;
+                    }
+                },
+                fail: function (response) { }
+            })
+        }
+        function XoaCTHD(order_id) {
+            var url = 'https://localhost:44386/XoaHoaDon/' + order_id
+            $.ajax({
+                url: url,
+                method: 'DELETE',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Không");
+                },
+                success: function (reponse) {
+                    let choice = confirm("Bạn có muốn xóa không");
+                    if (choice == true) {
+                        alert("Xóa thành công");
+                         window.location.href = '@Url.Action("Order", "Order_product_producer")';
+                    }
+                    else {
+
+                    }
+
+                }
+            });
+        }
+        function Capnhatlaisoluong(order_id) {
+            var url = 'https://localhost:44386/ctOrder/' + order_id
+            $.ajax({
+                url: url,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Không thành công");
+                },
+                success: function (reponse) {
+                    for (let i = 0; i < reponse.length; i++) {
+                        TraHang(reponse[i].id, reponse[i].quantity);
+                    }
+
+                }
+            });
+        }
+        function TraHang(id, soluong) {
+            var url = 'https://localhost:44386/api/Order_product_producer_API/?id=' + id + '&soluong=' + soluong
+            $.ajax({
+                url: url,
+                method: 'PUT',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Không");
+                },
+                success: function (reponse) {
+                }
+            });
+        }
+        function HienThiSua() {
+            document.getElementById("Edit").style.display = 'inline';
+            document.getElementById("Tim").style.display = 'none';
+            document.getElementById("HienThi").style.display = 'none';
+        }
+        function HienThiAdd() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'none';
+          //  document.getElementById("Add").style.display = 'inline';
+        }
+        function HienThi() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'inline';
+        //    document.getElementById("Add").style.display = 'none';
+        }
+        function HienThi1() {
+            document.getElementById("HienThi").style.display = 'inline';
+        }
+    </script>
+}
+<div id="Tim" class="container">
+    <div class="container" style="width:100%;">
+        <h1 style="text-align:center">Bảng Order</h1>
+        <br>
+        <table class="table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Order_ID</th>
+                    <th>User_Name</th>
+                    <th>Order_Receiver_Note</th>
+                    <th>Order_Total_Price</th>
+                    <th>Order_State</th>
+                    <th>Manipulate</th>
+                </tr>
+            </thead>
+            <tbody id="data">
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="HienThi" style="display:none">
+    <h1 style="text-align:center">Chi tiết hoá đơn</h1>
+    <table class="table table-hover" style="text-align:center">
+        <thead>
+            <tr>
+                <th style="max-width:150px;text-align:center">Số Hóa Đơn</th>
+                <th style="text-align:center">Tên Tranh</th>
+                <th style="text-align:center">Màu</th>
+                <th style="text-align:center">Kích thước</th>
+                <th style="text-align:center">Ảnh</th>
+                <th style="text-align:center">Số Lượng</th>
+                <th style="text-align:center">Giá Bán</th>
+                <th style="text-align:center">Tùy Chỉnh</th>
+
+            </tr>
+        </thead>
+        <tbody id="ChiTietHoaDon"></tbody>
+    </table>
+</div>
+<div class="container" id="Edit" style="display:none">
+    <table style="border:none">
+        <tbody>
+            <tr>
+                <td>Order_ID:</td>
+                <td>
+                    <input id="a" type="text" name="a" style="margin-bottom: 10px; border-radius: 2px; width: 280px" readonly />
+                </td>
+            </tr>
+            <tr>
+                <td>User_ID: </td>
+                <td>
+                   
+                    <select style="margin-bottom: 10px; border-radius: 2px; width: 280px" id="User" name="User" onchange="">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Order_Receiver_Note: </td>
+                <td>
+                    <input id="c" type="text" name="c" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Order_Total_Price: </td>
+                <td>
+                    <input id="d" type="text" name="d" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>state: </td>
+                <td>
+                    <select style="margin-bottom: 10px; border-radius: 2px; width: 280px" id="value11" name="stateEdit1" onchange="">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="display: inline-flex">
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px; margin-right: 10px" onclick="HienThi()">Quay lại</button>
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px;"
+                            onclick="SuaOrder();">
+                        Cập nhật
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+

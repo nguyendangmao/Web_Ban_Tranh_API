@@ -1,0 +1,203 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<BTL_TTCMWeb.Models.tbl_product>
+
+
+<div class="product-wrap">
+    <div class="row">
+        @foreach (var product in Model)
+        {
+<div class="col-md-4 feature-grid">
+    <a href="@Url.Action("ProductDetail","User", new { id=product.product_id })">
+        <img src="@product.product_img" alt="" />
+        <div class="arrival-info">
+            <p>@product.product_code</p>
+            <h4>@product.product_name</h4>
+            <p>@product.product_sub_info</p>
+            @if (product.product_isSale == true)
+            {
+<h1 style="color:red; font-size:20px; position: absolute; top: 20px; right: 50px; background: cornsilk;">Sale</h1>}
+
+        </div>
+        <div class="viw">
+            <a href="@Url.Action("ProductDetail","User", new { id = product.product_id })"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Xem chi tiết</a>
+        </div>
+    </a>
+</div>}
+    </div>
+</div>
+<div class="text-center clearfix">
+    @Html.PagedListPager(Model, page => $"javascript:setPage({page});")
+</div>
+<script>
+    var priceFrom = null;
+    var priceTo = null;
+    var minPrice = 0;
+    var maxPrice = 0;
+    var currentPage = 1;
+    var checkMouseSlider;
+    $( document ).ready(function() {
+        $.ajax({
+            //Thanh chỉ giá
+            type: 'GET',
+            url: '@Url.Action("getRangePriceAction", "User")',
+            success: function (dataRange) {
+                minPrice = dataRange[0];
+                maxPrice = dataRange[1];
+                $("#slider-range").slider({
+                    range: true,
+                    min: parseInt(dataRange[0], 10),
+                    max: parseInt(dataRange[1], 10),
+                    values: dataRange,
+                    slide: function (event, ui) {
+                        $("#amount").val(ui.values[0] + " vnđ" + " - " + ui.values[1] + " vnđ");
+                        priceFrom = ui.values[0];
+                        priceTo = ui.values[1];
+                        checkReset();
+                    }
+                });
+                $("#amount").val("$" + dataRange[0] + " - $" + dataRange[1]);
+            }
+        });
+    });
+    //TÌm kiếm những sản phẩm thõa mãn trong khoảng giá đó
+    $("#slider-range").mousedown(function () {
+        checkMouseSlider = true
+        checkReset();
+    }).keyup(function () {
+        checkMouseSlider = true
+        checkReset();
+        getDataPage();
+    })
+
+    $("div").mouseup(function () {
+        if (checkMouseSlider === true) {
+            checkReset();
+            getDataPage();
+            console.log("slider range mouse up")
+        }
+    })
+
+    $("#reset-div").hide();
+    //Chỉnh danh mục
+    $(".checkbox").change(function () {
+        checkReset();
+        getDataPage();
+    });
+    //Chỉnh màu
+    $(".checkboxColor").change(function () {
+        checkReset();
+        getDataPage();
+    });
+    //Chỉnh kích thước
+    $(".checkboxSize").change(function () {
+        checkReset();
+        getDataPage();
+        //return names;
+    });
+    //Phân trang 
+    function setPage(page) {
+        this.currentPage = page;
+        checkReset();
+        getDataPage();
+    };
+    //
+    $("#search-product").keyup(function (e) {
+        if (e.which === 13) {
+            checkReset();
+            getDataPage();
+        }
+    });
+    //Đổ ra dữ liệu cần tìm ở trong ô tìm kiếm
+    $("#btn-search").click(function () {
+        checkReset();
+        getDataPage();
+    });
+    //Xóa tất cả lựa chọn bên trái
+    $("#reset-btn").click(function () {
+        $("#reset-div").hide();
+        $(".checkbox input").prop("checked", false);
+        $(".checkboxColor input").prop("checked", false);
+        $("#search-product").val("");
+        $("#slider-range").slider({
+            range: true,
+            min: parseInt(minPrice, 10),
+            max: parseInt(maxPrice, 10),
+            values: [minPrice, maxPrice],
+            slide: function (event, ui) {
+                $("#amount").val(ui.values[0] + " vnđ" + " - " + ui.values[1] + " vnđ");
+            }
+        });
+        priceFrom = null;
+        priceTo = null;
+        $("#amount").val(+
+            minPrice + " vnđ" +
+            " - " +
+            maxPrice + " vnđ");
+        currentPage = 1;
+        getDataPage();
+    });
+    //Đưa ra bản giá
+    $("#slider-range").slider({
+        range: true,
+        min: parseInt(0, 10),
+        max: parseInt(200000, 10),
+        values: [minPrice, maxPrice],
+        slide: function (event, ui) {
+            $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+            priceFrom = ui.values[0];
+            priceTo = ui.values[1];
+            checkReset();
+            getDataPage();
+        }
+    });
+    //Load lại dữ liệu
+    function checkReset() {
+        if (getCategory() || getColor() ||
+            $("#search-product").val() ||
+            priceFrom !== minPrice ||
+            priceTo !== maxPrice) {
+
+            $("#reset-div").show();
+        } else {
+            $("#reset-div").hide();
+        }
+    };
+    //Lấy loại ở ô check loại
+    function getCategory() {
+        var names = $(".checkbox input:checked").map(function () {
+            return this.labels[0].innerText;
+        }).get().toString();
+        return names;
+    }// Lấy giá trị màu ở ô check box màu
+    function getColor() {
+        var names = $(".checkboxColor input:checked").map(function () {
+            return this.labels[0].innerText;
+        }).get().toString();
+        return names;
+    }
+    //Lấy giá trị size ở ô check box size
+    function getSize() {
+        var names = $(".checkboxSize input:checked").map(function () {
+            return this.labels[0].innerText;
+        }).get().toString();
+        return names;
+    }
+    //Lấy dữ liệu view ra trang chủ theo phân trang có sãn
+    function getDataPage() {
+        debugger
+        checkMouseSlider = false;
+        var obj = { page: this.currentPage, category: getCategory(), color: getColor(), size: getSize(), priceFrom: priceFrom, priceTo: priceTo, search: $("#search-product").val() };
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetDataProductPartial", "User")',
+            data: obj,
+            success: function (result) {
+                debugger
+                document.getElementById("data-result").innerHTML = result;
+            },
+            error: function () {
+                document.getElementById("data-result").innerHTML = "<h1>Có lỗi xảy ra.</h1>";
+            }
+        });
+    }
+</script>

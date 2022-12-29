@@ -1,0 +1,56 @@
+﻿@model BTL_TTCMWeb.Models.tbl_contact
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li><a href="index.html">Home</a></li>
+    <li class="active">Contact</li>
+</ol>
+<!--start contact-->
+<h3>Liên Hệ Chúng Tôi</h3>
+<div class="section group">
+    <div class="col-md-6 span_1_of_3">
+        <div class="contact_info">
+            <h4>Tìm chúng tôi tại đây</h4>
+            <div class="map">
+                <iframe src="https://maps.google.co.in/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Lighthouse+Point,+FL,+United+States&amp;aq=4&amp;oq=light&amp;sll=26.275636,-80.087265&amp;sspn=0.04941,0.104628&amp;ie=UTF8&amp;hq=&amp;hnear=Lighthouse+Point,+Broward,+Florida,+United+States&amp;t=m&amp;z=14&amp;ll=26.275636,-80.087265&amp;output=embed"></iframe>
+            </div>
+        </div>
+        <div class="company_address">
+            <h4>Thông tin cửa hàng :</h4>
+            <p>@Model.address</p>
+            <p>Phone:@Model.phone</p>
+            <p>Email: <a href="mailto:@Model.email">@Model.email</a></p>
+            <p>Giờ mở cửa: @Model.time</p>
+        </div>
+    </div>
+    <div class="col-md-6 span_2_of_3">
+        <div class="contact-form">
+            <form method="POST" action="https://formspree.io/hoanganhphan2106@gmail.com">
+                <div>
+                    <span><label>Tên Khách Hàng</label></span>
+                    <span><input name="userName" type="text" class="textbox"></span>
+                </div>
+                <div>
+                    <span><label>Hòm Thư E-MAIL</label></span>
+                    <span><input name="userEmail" type="text" class="textbox"></span>
+                </div>
+                <div>
+                    <span><label>Số Điện Thoại</label></span>
+                    <span><input name="userPhone" type="text" class="textbox"></span>
+                </div>
+                <div>
+                    <span><label>Nội Dung</label></span>
+                    <span><textarea name="userMsg"> </textarea></span>
+                </div>
+                <div>
+                    <span><input type="submit" class="mybutton" value="Submit"></span>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+

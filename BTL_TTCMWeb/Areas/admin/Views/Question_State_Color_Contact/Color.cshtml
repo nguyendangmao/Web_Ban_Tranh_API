@@ -1,0 +1,209 @@
+﻿
+@{
+    ViewBag.Title = "Color";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetAll();
+        });
+        function LaytheomaTB(color_id) {
+            $.ajax({
+                url: ' https://localhost:44386/LayMau/' + color_id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (res) {
+                    alert("Lỗi mã");
+                },
+                success: function (res) {
+                    $("#txtThietBi").val(res.color_id),
+                        $("#txtTen").val(res.color_name),
+                        $("#txtEmail").val(res.color_img)
+                },
+                fail: function (response) { }
+            })
+        }
+        function checkcolor() {
+            if ($("input[name='MaThietBi1']").val() == '') {
+                alert("Vui lòng nhập mã màu");
+            } else if ($("input[name='Ten1']").val() == '') {
+                alert("vui lòng nhập tên tên màu");
+            } else if ($("input[name='Email1']").val() == '') {
+                alert("vui lòng nhập link màu ảnh");
+            } else {
+                AddColor();
+            }
+        }
+        function GetAll() {
+            $.ajax({
+                url: ' https://localhost:44386/LayMau/',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        let STT = i + 1;
+                        table = table + '<tr>'
+                        table = table + '<td>' + STT + '</td>';
+                        table = table + '<td>' + reponse[i].color_id + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].color_name + '</td>';
+                        table = table + '<td> <div ><img src="' + reponse[i].color_img + '" style="width : 38px; height : 38px " /></div> </td>';
+                        table = table + '<td style="max-width : 150px" > <button type="button" class="btn btn-danger" onclick="HienThiSua(),LaytheomaTB(\'' + reponse[i].color_id + '\')">Sửa</button></td>';
+                        table = table + '<tr>'
+
+                        document.getElementById('data').innerHTML = table;
+                    }
+                },
+                fail: function (response) { }
+            })
+        }
+        function AddColor() {
+            var url = 'https://localhost:44386/api/Default/?color_id=' +
+                $("input[name='MaThietBi1']").val() + '&color_name=' + $("input[name='Ten1']").val() +
+                '&color_img=' + $("input[name='Email1']").val();
+            $.ajax({
+                url: url,
+                method: 'Post',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Thêm mới không thành công");
+                },
+                success: function (reponse) {
+                    alert("Thêm mới thành công  ");
+                    window.location.href = '@Url.Action("Color", "Question_State_Color_Contact")';
+                }
+            });
+        }
+        function SuaColor() {
+            var url = 'https://localhost:44386/api/Default/?color_id=' +
+                $("input[name='MaThietBi']").val() + '&color_name=' + $("input[name='Ten']").val() +
+                '&color_img=' + $("input[name='Email']").val();
+            $.ajax({
+                url: url,
+                method: 'PUT',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert(url);
+                    alert("Sửa không thành công  ");
+                },
+                success: function (reponse) {
+                    alert("Sửa thành công  ");
+                    window.location.href = '@Url.Action("Color", "Question_State_Color_Contact")';
+                }
+            });
+        }
+        function HienThiSua() {
+            document.getElementById("Edit").style.display = 'inline';
+            document.getElementById("Tim").style.display = 'none';
+            document.getElementById("Add").style.display = 'none';
+        }
+        function HienThiAdd() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'none';
+            document.getElementById("Add").style.display = 'inline';
+        }
+        function HienThi() {
+            document.getElementById("Edit").style.display = 'none';
+            document.getElementById("Tim").style.display = 'inline';
+            document.getElementById("Add").style.display = 'none';
+        }
+    </script>
+}
+<div id="Tim" class="container">
+    <div class="container" style="width:100%;">
+        <h1 style="text-align:center">Bảng Màu Sắc</h1>
+        <button class="btn btn-info" style="float: left; margin-bottom: 20px;" onclick="HienThiAdd();">Thêm Màu Sắc</button></a>
+        <br>
+        <table class="table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>ID</th>
+                    <th>Tên màu</th>
+                    <th>Ảnh màu</th>
+                    <th>Tùy chọn</th>
+                </tr>
+            </thead>
+            <tbody id="data">
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container" id="Edit" style="display:none">
+    <table style="border:none">
+        <tbody>
+            <tr>
+                <td>ID: </td>
+                <td>
+                    <input id="txtThietBi" type="text" name="MaThietBi" style="margin-bottom: 10px; border-radius: 2px; width: 280px" readonly />
+                </td>
+            </tr>
+            <tr>
+                <td>Tên màu: </td>
+                <td>
+                    <input id="txtTen" type="text" name="Ten" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Ảnh màu: </td>
+                <td>
+                    <input id="txtEmail" type="text" name="Email" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td style="display: inline-flex">
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px; margin-right: 10px" onclick="HienThi()">Quay lại</button>
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px;"
+                            onclick="SuaColor();">
+                        Cập nhật
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container" id="Add" style="display:none">
+    <table style="border:none">
+        <tbody>
+            <tr>
+                <td>ID: </td>
+                <td>
+                    <input id="txtThietBi" type="text" name="MaThietBi1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Tên màu: </td>
+                <td>
+                    <input id="txtTen" type="text" name="Ten1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td>Ảnh màu: </td>
+                <td>
+                    <input id="txtEmail" type="text" name="Email1" style="margin-bottom: 10px; border-radius: 2px; width: 280px" />
+                </td>
+            </tr>
+            <tr>
+                <td style="display: inline-flex">
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px; margin-right: 10px" onclick="HienThi()">Quay lại</button>
+                    <button class="btn-primary update-button" style="width: 150px; height:40px; border: none; outline: none; border-radius: 20px; margin-top: 20px;"
+                            onclick="checkcolor();">
+                        Thêm mới
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

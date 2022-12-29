@@ -1,0 +1,273 @@
+﻿
+@{
+    ViewBag.Title = "User";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetAll();
+        });
+
+        function GetAll() {
+            $.ajax({
+                url: ' https://localhost:44386/tttt/',
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        if (reponse[i].isActive == 1) {
+                            reponse[i].isActive = "Đã kích hoạt"
+                        }
+                        else {
+                            reponse[i].isActive = "Chưa kích hoạt"
+                        }
+                        if (reponse[i].question == null || reponse[i].question == "") {
+                            reponse[i].question = "Không có";
+                        }
+                        if (reponse[i].answer == null || reponse[i].answer == "") {
+                            reponse[i].answer = "Không có";
+                        }
+                        if (reponse[i].user_phone == null || reponse[i].user_phone == "") {
+                            reponse[i].user_phone = "Không có";
+                        }
+                        if (reponse[i].user_address == null || reponse[i].user_address == "") {
+                            reponse[i].user_address = "Không có";
+                        }
+                        let STT = i + 1;
+                        table = table + '<tr>'
+                        table = table + '<td>' + STT + '</td>';
+                        table = table + '<td>' + reponse[i].user_id + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].user_name + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].user_email + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].user_phone + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].user_address + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].user_password + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].CreatedAt + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].isActive + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].question + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].answer + '</td>';
+                        table = table + '<td style="max-width : 150px" > <button type="button" class="btn btn-danger" onclick="HienThiChiTiet(),LayDHTheoMaKH(\'' + reponse[i].user_id + '\'),LayChiTietKhachHang(\'' + reponse[i].user_id + '\')">Xem Thêm</button></td>';
+                        table = table + '<tr>'
+
+                        document.getElementById('data').innerHTML = table;
+                    }
+                },
+                fail: function (response) { }
+            })
+        }
+        function LayChiTietKhachHang(user_id) {
+            $.ajax({
+                url: 'https://localhost:44386/Thongke/' + user_id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (response) {
+                    alert("Không");
+                },
+                success: function (reponse) {
+                    let table = '';
+                    if (reponse.SoLanMua == null) {
+                        reponse.SoLanMua = 0;
+                    }
+                    if (reponse.isActive == 1) {
+                        reponse.isActive = "Đã kích hoạt"
+                    }
+                    else {
+                        reponse.isActive = "Chưa kích hoạt"
+                    }
+                    table = table + '<p style="max-width:150px">' + reponse.user_id + '</p>';
+                    table = table + '<p>' + reponse.user_name + '</p>';
+                    table = table + '<p>' + reponse.user_phone + '</p>';
+                    table = table + '<p>' + reponse.user_address + '</p>';
+                    table = table + '<p>' + reponse.user_email + '</p>';
+                    table = table + '<p>' + reponse.CreatedAt + '</p>';
+                    table = table + '<p>' + reponse.isActive + '</p>';
+                    table = table + '<p>' + reponse.SoLanMua + '</p>';
+                    document.getElementById('TTKH').innerHTML = table;
+                },
+                fail: function (response) { }
+            });
+        }
+        function LayChiTietHoaDon(order_id) {
+            $.ajax({
+                url: ' https://localhost:44386/LayCTHD/' + order_id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Lỗi");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    for (var i = 0; i < len; ++i) {
+                        let STT = i + 1;
+                        table = table + '<tr>'
+                        table = table + '<td>' + STT + '</td>';
+                        table = table + '<td>' + reponse[i].oder_id + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].product_name + '</td>';
+                        table = table + '<td> <div ><img src="' + reponse[i].product_img + '" style="width : 38px; height : 38px " /></div> </td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].price + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].quantity + '</td>';
+                        table = table + '<td style="max-width : 200px">' + reponse[i].TongTien + '</td>';
+                        table = table + '<tr>'
+
+                        document.getElementById('CTDH').innerHTML = table;
+                    }
+                },
+                fail: function (response) { }
+            })
+        }
+        function LayDHTheoMaKH(quser_id) {
+            $.ajax({
+                url: 'https://localhost:44386/tttt/' + quser_id,
+                method: 'GET',
+                contentType: 'json',
+                dataType: 'json',
+                error: function (reponse) {
+                    alert("Không");
+                },
+                success: function (reponse) {
+                    const len = reponse.length;
+                    let table = '';
+                    if (reponse.length == 0) {
+                        table = table + '<p style="text-align:center">Khách hàng này chưa mua sản phẩm</p>';
+                        document.getElementById('3').innerHTML = table;
+                    } else {
+                        for (var i = 0; i < len; ++i) {
+                            table = table + '<tr>'
+                            table = table + '<td style="max-width:150px">' + reponse[i].order_id + '</td>';
+                            table = table + '<td>' + reponse[i].order_receiver_note + '</td>';
+                            table = table + '<td>' + reponse[i].date + '</td>';
+                            table = table + '<td>' + reponse[i].state_name + '</td>';
+                            table = table + '<td> <button type="button" class="btn btn-danger" onclick="LayChiTietHoaDon(\'' + reponse[i].order_id + '\'),HienThi()">Xem Thêm</button> </td>';
+                            table = table + '<tr>'
+                        }
+                        document.getElementById('listDH').innerHTML = table;
+                    };
+                },
+                fail: function (response) { }
+            });
+        }
+        function HienThiChiTiet() {
+            document.getElementById("1").style.display = 'inline';
+            document.getElementById("0").style.display = 'none';
+        }
+        function HienThi() {
+            document.getElementById("2").style.display = 'inline';
+        }
+    </script>
+}
+<h1 style="text-align:center;margin-bottom:40px"><b>Bảng Khách Hàng</b></h1>
+<table class="table table-hover" style="text-align:center" id="0">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>ID</th>
+            <th>Tên người dùng</th>
+            <th>Email(Tên đăng nhập)</th>
+            <th>Điện thoại</th>
+            <th>Địa chỉ</th>
+            <th>Password</th>
+            <th>Thời gian tạo</th>
+            <th>Trạng thái</th>
+            <th>Câu hỏi bảo mật</th>
+            <th>Câu trả lời</th>
+            <th>Tùy chọn</th>
+        </tr>
+    </thead>
+    <tbody id="data">
+    </tbody>
+</table>
+<div class="content-wrapper content" style="padding-top:0px">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2 tittelKH">
+                <div id="1" style="display:none">
+                    @*Thông tin khách hàng+Hóa đơn khách hàng đó đã mua*@
+                        <h3><b>Thông tin khách hàng</b></h3>
+                    <br />
+                    <div class="row Contact" style="display: flex;float:none">
+                        <div class="col-sm-10">
+                            <p>Mã khách hàng: </p>
+                            <p>Tên khách hàng: </p>
+                            <p>Số điện thoại: </p>
+                            <p>Địa chỉ: </p>
+                            <p>Email: </p>
+                            <p>Thời gian tạo: </p>
+                            <p>Trạng thái: </p>
+                            <p>Tổng số lần mua hàng: </p>
+
+                        </div>
+                        <div class="col-sm-10" id="TTKH" style="float:none">
+
+                        </div>
+
+                    </div>
+                    <div class="row mb-2 tittelKH">
+                        <div class="col-sm-6 tittel">
+                            <h4 class="m-0 text-dark"><b>Lịch sử mua hàng</b></h4>
+                        </div>
+                    </div>
+                    <div class="Table_wrapper">
+                        <div id="3">
+                            <table class="table table-hover">
+                                <thead class="header">
+                                    <tr>
+                                        <th scope="col">Mã hóa đơn</th>
+                                        <th scope="col">Chú Thích</th>
+                                        <th scope="col">Ngày lập</th>
+                                        <th scope="col">Trạng thái</th>
+                                        <th scope="col">Tùy chỉnh</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listDH">
+                                </tbody>
+                            </table>
+                            <div id="2" style="display:none">
+                                <div class="row mb-2 tittelKH">
+                                    <div class="col-sm-6 tittel">
+                                        <h4 class="m-0 text-dark"><b>Chi Tiết Đơn Hàng</b></h4>
+                                    </div>
+                                </div>
+                                <div class="Table_wrapper">
+                                    <table class="table table-hover">
+                                        <thead class="header">
+                                            <tr>
+                                                <th scope="col">STT</th>
+                                                <th scope="col">Số Hóa Đơn</th>
+                                                <th scope="col">Tên tranh</th>
+                                                <th scope="col">Ảnh</th>
+                                                <th scope="col">Giá Bán</th>
+                                                <th scope="col">Số Lượng</th>
+                                                <th scope="col">Thành Tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="CTDH">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row back">
+                            <div class="col-sm-6">
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="@Url.Action("User")" class="btnPro">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+ </div>
